@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"telegram-api/internal/config"
@@ -44,6 +45,12 @@ const (
 // ==================== CREATE SESSION ====================
 
 func (s *SessionService) CreateSession(ctx context.Context, userID uuid.UUID, req *domain.CreateSessionRequest) (*domain.TelegramSession, string, error) {
+	logger.Debug().
+		Str("user_id", userID.String()).
+		Str("auth_method", string(req.AuthMethod)).
+		Str("session_name", req.SessionName).
+		Msg("🔄 CreateSession iniciado")
+
 	if req.AuthMethod == domain.AuthMethodQR {
 		return s.createSessionQR(ctx, userID, req)
 	}
@@ -53,28 +60,40 @@ func (s *SessionService) CreateSession(ctx context.Context, userID uuid.UUID, re
 // ==================== SMS AUTH ====================
 
 func (s *SessionService) createSessionSMS(ctx context.Context, userID uuid.UUID, req *domain.CreateSessionRequest) (*domain.TelegramSession, string, error) {
+	logger.Debug().Str("phone", req.Phone).Msg("📱 Iniciando auth SMS...")
+
 	if req.Phone == "" {
+		logger.Warn().Msg("⚠️ Phone vacío en SMS auth")
 		return nil, "", domain.ErrInvalidPhoneNumber
 	}
 
 	// Verificar sesión existente
 	existing, _ := s.sessionRepo.GetByUserAndPhone(ctx, userID, req.Phone)
 	if existing != nil && existing.IsActive {
+		logger.Warn().
+			Str("phone", req.Phone).
+			Str("existing_id", existing.ID.String()).
+			Msg("⚠️ Ya existe sesión activa con este número")
 		return nil, "", domain.ErrSessionAlreadyExists
 	}
 
 	// Cifrar api_hash
+	logger.Debug().Msg("🔐 Cifrando api_hash...")
 	apiHashEncrypted, err := s.tgManager.Encrypt([]byte(req.ApiHash))
 	if err != nil {
+		logger.Error().Err(err).Msg("❌ Error cifrando api_hash en SMS")
 		return nil, "", domain.ErrInternal
 	}
+	logger.Debug().Msg("✅ api_hash cifrado OK")
 
 	// Enviar código SMS
+	logger.Debug().Str("phone", req.Phone).Msg("📤 Enviando código SMS...")
 	phoneCodeHash, err := s.tgManager.SendCode(ctx, req.ApiID, req.ApiHash, req.Phone)
 	if err != nil {
-		logger.Error().Err(err).Str("phone", req.Phone).Msg("Error enviando código SMS")
+		logger.Error().Err(err).Str("phone", req.Phone).Msg("❌ Error enviando código SMS")
 		return nil, "", domain.NewAppError(err, "Error enviando código", 502)
 	}
+	logger.Debug().Msg("✅ Código SMS enviado OK")
 
 	// Crear sesión
 	session := &domain.TelegramSession{
@@ -90,9 +109,20 @@ func (s *SessionService) createSessionSMS(ctx context.Context, userID uuid.UUID,
 		UpdatedAt:        time.Now(),
 	}
 
+	logger.Debug().
+		Str("session_id", session.ID.String()).
+		Str("session_name", session.SessionName).
+		Msg("💾 Guardando sesión en DB...")
+
 	if err := s.sessionRepo.Create(ctx, session); err != nil {
+		logger.Error().
+			Err(err).
+			Str("session_id", session.ID.String()).
+			Str("session_name", session.SessionName).
+			Msg("❌ Error creando sesión SMS en DB")
 		return nil, "", domain.ErrDatabase
 	}
+	logger.Debug().Msg("✅ Sesión guardada en DB OK")
 
 	// Guardar code_hash en cache
 	_ = s.cache.Set(ctx, "tg:code:"+session.ID.String(), phoneCodeHash, 300)
@@ -100,7 +130,7 @@ func (s *SessionService) createSessionSMS(ctx context.Context, userID uuid.UUID,
 	logger.Info().
 		Str("session_id", session.ID.String()).
 		Str("phone", req.Phone).
-		Msg("Sesión SMS creada, código enviado")
+		Msg("✅ Sesión SMS creada, código enviado")
 
 	return session, phoneCodeHash, nil
 }
@@ -108,11 +138,23 @@ func (s *SessionService) createSessionSMS(ctx context.Context, userID uuid.UUID,
 // ==================== QR AUTH ====================
 
 func (s *SessionService) createSessionQR(ctx context.Context, userID uuid.UUID, req *domain.CreateSessionRequest) (*domain.TelegramSession, string, error) {
+	logger.Debug().
+		Str("user_id", userID.String()).
+		Str("session_name", req.SessionName).
+		Int("api_id", req.ApiID).
+		Msg("📱 Iniciando auth QR...")
+
 	// Cifrar api_hash
+	logger.Debug().Msg("🔐 Cifrando api_hash...")
 	apiHashEncrypted, err := s.tgManager.Encrypt([]byte(req.ApiHash))
 	if err != nil {
+		logger.Error().
+			Err(err).
+			Str("session_name", req.SessionName).
+			Msg("❌ Error cifrando api_hash en QR")
 		return nil, "", domain.ErrInternal
 	}
+	logger.Debug().Int("encrypted_len", len(apiHashEncrypted)).Msg("✅ api_hash cifrado OK")
 
 	sessionName := defaultSessionName(req.SessionName, "QR")
 
@@ -130,11 +172,29 @@ func (s *SessionService) createSessionQR(ctx context.Context, userID uuid.UUID, 
 		UpdatedAt:        time.Now(),
 	}
 
+	logger.Debug().
+		Str("session_id", session.ID.String()).
+		Str("session_name", sessionName).
+		Str("user_id", userID.String()).
+		Msg("💾 Guardando sesión QR en DB...")
+
 	if err := s.sessionRepo.Create(ctx, session); err != nil {
+		logger.Error().
+			Err(err).
+			Str("session_id", session.ID.String()).
+			Str("session_name", sessionName).
+			Str("user_id", userID.String()).
+			Msg("❌ Error creando sesión QR en DB")
 		return nil, "", domain.ErrDatabase
 	}
+	logger.Debug().Str("session_id", session.ID.String()).Msg("✅ Sesión QR guardada en DB OK")
 
 	// Iniciar auth QR (retorna QR + channel para resultado)
+	logger.Debug().
+		Int("api_id", req.ApiID).
+		Str("session_name", sessionName).
+		Msg("🔄 Iniciando StartQRAuth...")
+
 	qrImageB64, resultChan, err := s.tgManager.StartQRAuth(
 		context.Background(), // Background porque el cliente debe vivir más que el request
 		req.ApiID,
@@ -144,10 +204,16 @@ func (s *SessionService) createSessionQR(ctx context.Context, userID uuid.UUID, 
 		qrTimeout,
 	)
 	if err != nil {
-		logger.Error().Err(err).Msg("Error iniciando QR auth")
+		logger.Error().
+			Err(err).
+			Str("session_id", session.ID.String()).
+			Str("session_name", sessionName).
+			Int("api_id", req.ApiID).
+			Msg("❌ Error iniciando QR auth")
 		_ = s.sessionRepo.Delete(ctx, session.ID)
 		return nil, "", domain.NewAppError(err, "Error generando QR", 502)
 	}
+	logger.Debug().Int("qr_len", len(qrImageB64)).Msg("✅ QR generado OK")
 
 	// Escuchar resultado en background
 	go s.handleQRResult(session.ID, resultChan)
@@ -155,11 +221,12 @@ func (s *SessionService) createSessionQR(ctx context.Context, userID uuid.UUID, 
 	logger.Info().
 		Str("session_id", session.ID.String()).
 		Str("session_name", sessionName).
-		Msg("Sesión QR iniciada, esperando escaneo en background...")
+		Msg("🚀 Sesión QR iniciada, esperando escaneo en background...")
 
 	return session, qrImageB64, nil
 }
 
+// handleQRResult procesa el resultado del QR auth en background
 // handleQRResult procesa el resultado del QR auth en background
 func (s *SessionService) handleQRResult(sessionID uuid.UUID, resultChan <-chan telegram.QRAuthResult) {
 	result, ok := <-resultChan
@@ -167,50 +234,36 @@ func (s *SessionService) handleQRResult(sessionID uuid.UUID, resultChan <-chan t
 		logger.Warn().Str("session_id", sessionID.String()).Msg("Channel cerrado sin resultado")
 		return
 	}
-
 	ctx := context.Background()
-
-	// Obtener sesión actual
 	session, err := s.sessionRepo.GetByID(ctx, sessionID)
 	if err != nil {
 		logger.Error().Err(err).Str("session_id", sessionID.String()).Msg("Sesión no encontrada")
 		return
 	}
-
-	// Si ya está activa, ignorar
 	if session.IsActive {
 		return
 	}
-
 	if result.Error != nil {
-		// Falló la autenticación
 		session.AuthState = domain.SessionFailed
 		_ = s.sessionRepo.Update(ctx, session)
-		logger.Warn().
-			Err(result.Error).
-			Str("session_id", sessionID.String()).
-			Msg("QR auth fallido")
+		logger.Warn().Err(result.Error).Str("session_id", sessionID.String()).Msg("QR auth fallido")
 		return
 	}
-
-	// ¡Éxito! Actualizar sesión
 	var encryptedSessionData []byte
 	if len(result.SessionData) > 0 {
 		encryptedSessionData, _ = s.tgManager.Encrypt(result.SessionData)
 	}
-
 	session.SessionData = encryptedSessionData
 	session.AuthState = domain.SessionAuthenticated
 	session.IsActive = true
 	session.TelegramUserID = result.User.ID
 	session.TelegramUsername = result.User.Username
 	session.UpdatedAt = time.Now()
-
+	session.PhoneNumber = fmt.Sprintf("TG-%d", result.User.ID) // ✅ LÍNEA NUEVA
 	if err := s.sessionRepo.Update(ctx, session); err != nil {
 		logger.Error().Err(err).Msg("Error actualizando sesión autenticada")
 		return
 	}
-
 	logger.Info().
 		Str("session_id", sessionID.String()).
 		Int64("telegram_user_id", result.User.ID).
@@ -295,13 +348,11 @@ func (s *SessionService) GetSession(ctx context.Context, sessionID uuid.UUID) (*
 }
 
 func (s *SessionService) DeleteSession(ctx context.Context, sessionID uuid.UUID) error {
-	// Obtener sesión primero
 	session, err := s.sessionRepo.GetByID(ctx, sessionID)
 	if err != nil {
 		return err
 	}
 
-	// Si tiene datos de sesión, cerrar en Telegram
 	if session.IsActive && len(session.SessionData) > 0 {
 		logoutCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -315,10 +366,8 @@ func (s *SessionService) DeleteSession(ctx context.Context, sessionID uuid.UUID)
 		)
 		if err != nil {
 			logger.Warn().Err(err).Str("session_id", sessionID.String()).Msg("Error en logout de Telegram")
-			// Continuar con el borrado aunque falle logout
 		}
 	}
 
-	// Borrar de DB
 	return s.sessionRepo.Delete(ctx, sessionID)
 }

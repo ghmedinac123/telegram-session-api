@@ -19,7 +19,7 @@ export const ContactsPage = () => {
   const { sessionId } = useParams<{ sessionId: string }>()
   const navigate = useNavigate()
 
-  const { data: session, isLoading: sessionLoading } = useSession(sessionId!)
+  const { data: sessionData, isLoading: sessionLoading } = useSession(sessionId!)
   const { data: contactsData, isLoading: contactsLoading, error } = useContacts(sessionId!)
 
   const isLoading = sessionLoading || contactsLoading
@@ -27,7 +27,7 @@ export const ContactsPage = () => {
   if (!sessionId) {
     return (
       <Layout>
-        <Alert variant="error">ID de sesión no válido</Alert>
+        <Alert variant="error">ID de sesion no valido</Alert>
       </Layout>
     )
   }
@@ -42,13 +42,15 @@ export const ContactsPage = () => {
     )
   }
 
-  if (!session) {
+  if (!sessionData) {
     return (
       <Layout>
-        <Alert variant="error">Sesión no encontrada</Alert>
+        <Alert variant="error">Sesion no encontrada</Alert>
       </Layout>
     )
   }
+
+  const session = sessionData.session
 
   if (!session.is_active) {
     return (
@@ -56,10 +58,10 @@ export const ContactsPage = () => {
         <div className="max-w-2xl mx-auto text-center py-12">
           <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Sesión no activa
+            Sesion no activa
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Esta sesión no está activa. Por favor, verifica la sesión primero.
+            Esta sesion no esta activa. Por favor, verifica la sesion primero.
           </p>
           <Button variant="primary" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />

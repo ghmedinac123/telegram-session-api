@@ -18,12 +18,12 @@ export const QRCodeModal = ({
   qrImage: initialQrImage,
   onSuccess,
 }: QRCodeModalProps) => {
-  const [qrImage, setQrImage] = useState(initialQrImage)
-  const [attempt, setAttempt] = useState(1)
+  const [qrImage] = useState(initialQrImage)
+  const [attempt] = useState(1)
   const [status, setStatus] = useState<'waiting' | 'success' | 'failed'>('waiting')
 
   // Polling para verificar si el QR fue escaneado
-  const { data: sessionData, refetch } = useSession(sessionId)
+  const { refetch } = useSession(sessionId)
 
   useEffect(() => {
     if (!isOpen) return

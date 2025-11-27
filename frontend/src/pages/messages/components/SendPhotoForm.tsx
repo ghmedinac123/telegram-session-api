@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import { Button, Input, Alert } from '@/components/common'
+import { Button, Input, Alert, FileUpload } from '@/components/common'
 import { useSendPhotoMessage } from '@/hooks'
+import { useToast } from '@/contexts'
 import { ApiException } from '@/types'
-import { Image, CheckCircle } from 'lucide-react'
+import { Send } from 'lucide-react'
 
 interface SendPhotoFormProps {
   sessionId: string
 }
 
 export const SendPhotoForm = ({ sessionId }: SendPhotoFormProps) => {
+  const toast = useToast()
   const [to, setTo] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [caption, setCaption] = useState('')
-  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
   const sendMessage = useSendPhotoMessage()
@@ -20,10 +21,14 @@ export const SendPhotoForm = ({ sessionId }: SendPhotoFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setSuccess('')
 
-    if (!to.trim() || !photoUrl.trim()) {
-      setError('Destinatario y URL de la foto son requeridos')
+    if (!to.trim()) {
+      setError('El destinatario es requerido')
+      return
+    }
+
+    if (!photoUrl.trim()) {
+      setError('La imagen es requerida')
       return
     }
 
@@ -33,7 +38,7 @@ export const SendPhotoForm = ({ sessionId }: SendPhotoFormProps) => {
         data: { to: to.trim(), photo_url: photoUrl.trim(), caption: caption.trim() || undefined },
       })
 
-      setSuccess(`Foto enviada exitosamente. Job ID: ${response.job_id}`)
+      toast.success('Foto enviada', `Job ID: ${response.job_id}`)
       setTo('')
       setPhotoUrl('')
       setCaption('')
@@ -49,37 +54,29 @@ export const SendPhotoForm = ({ sessionId }: SendPhotoFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <Alert variant="error">{error}</Alert>}
-      {success && (
-        <Alert variant="success">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
-            {success}
-          </div>
-        </Alert>
-      )}
 
       <Input
         label="Destinatario"
         type="text"
-        placeholder="@username o +573001234567"
+        placeholder="@username, +573001234567 o ID de chat"
         value={to}
         onChange={(e) => setTo(e.target.value)}
         disabled={sendMessage.isPending}
       />
 
-      <Input
-        label="URL de la Foto"
-        type="url"
-        placeholder="https://example.com/image.jpg"
+      <FileUpload
+        type="image"
+        label="Imagen"
         value={photoUrl}
-        onChange={(e) => setPhotoUrl(e.target.value)}
+        onChange={setPhotoUrl}
+        placeholder="https://tu-servidor.com/imagen.jpg"
         disabled={sendMessage.isPending}
       />
 
       <Input
         label="Caption (Opcional)"
         type="text"
-        placeholder="Descripción de la foto..."
+        placeholder="Descripcion de la foto..."
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
         disabled={sendMessage.isPending}
@@ -89,9 +86,10 @@ export const SendPhotoForm = ({ sessionId }: SendPhotoFormProps) => {
         type="submit"
         variant="primary"
         isLoading={sendMessage.isPending}
-        className="flex items-center gap-2"
+        fullWidth
+        className="h-12"
       >
-        <Image className="w-4 h-4" />
+        <Send className="w-4 h-4 mr-2" />
         Enviar Foto
       </Button>
     </form>

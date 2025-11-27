@@ -41,6 +41,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const register = async (username: string, email: string, password: string) => {
+    setIsLoading(true)
+    try {
+      await authApi.register({ username, email, password })
+      // Después del registro, hacer login automático
+      await login(username, password)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
@@ -64,6 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     token,
     isAuthenticated: !!token && !!user,
     login,
+    register,
     logout,
     isLoading,
   }

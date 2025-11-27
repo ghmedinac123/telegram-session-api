@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Plus, Loader2, AlertCircle } from 'lucide-react'
+import { Plus, Loader2, AlertCircle, Smartphone, Activity } from 'lucide-react'
 import { Layout } from '@/components/layout'
-import { Button, Alert } from '@/components/common'
+import { Button, Alert, Card } from '@/components/common'
 import { useSessions } from '@/hooks'
 import { SessionCard } from './components/SessionCard'
 import { CreateSessionModal, VerifySMSModal, QRCodeModal } from '@/components/sessions'
@@ -45,34 +45,75 @@ export const DashboardPage = () => {
     refetch()
   }
 
+  // Stats
+  const totalSessions = sessions?.length || 0
+  const activeSessions = sessions?.filter((s) => s.is_active).length || 0
+  const pendingSessions = sessions?.filter((s) => !s.is_active && s.auth_state !== 'failed').length || 0
+
   return (
     <Layout>
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Sesiones de Telegram
+              Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Gestiona tus sesiones activas
+              Gestiona tus sesiones de Telegram
             </p>
           </div>
           <Button
             variant="primary"
-            className="flex items-center gap-2"
+            className="w-full sm:w-auto"
             onClick={() => setShowCreateModal(true)}
           >
-            <Plus className="w-4 h-4" />
-            Nueva Sesión
+            <Plus className="w-4 h-4 mr-2" />
+            Nueva Sesion
           </Button>
         </div>
 
+        {/* Stats */}
+        <div className="grid gap-4 md:grid-cols-3">
+          <Card className="flex items-center gap-4">
+            <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl">
+              <Smartphone className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Total Sesiones</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalSessions}</p>
+            </div>
+          </Card>
+
+          <Card className="flex items-center gap-4">
+            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+              <Activity className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Activas</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeSessions}</p>
+            </div>
+          </Card>
+
+          <Card className="flex items-center gap-4">
+            <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
+              <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Pendientes</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{pendingSessions}</p>
+            </div>
+          </Card>
+        </div>
+
+        {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
           </div>
         )}
 
+        {/* Error */}
         {error && (
           <Alert variant="error">
             <div className="flex items-center gap-2">
@@ -82,29 +123,36 @@ export const DashboardPage = () => {
           </Alert>
         )}
 
+        {/* Empty State */}
         {sessions && sessions.length === 0 && (
-          <div className="text-center py-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
-              <AlertCircle className="w-8 h-8 text-gray-400" />
+          <Card className="p-12 text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full mb-6">
+              <Smartphone className="w-10 h-10 text-gray-400" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               No hay sesiones
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Crea tu primera sesión de Telegram para comenzar
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm mx-auto">
+              Crea tu primera sesion de Telegram para comenzar a enviar mensajes
             </p>
-            <Button variant="primary">
-              <Plus className="w-4 h-4 mr-2 inline" />
-              Crear Sesión
+            <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Crear Sesion
             </Button>
-          </div>
+          </Card>
         )}
 
+        {/* Sessions List */}
         {sessions && sessions.length > 0 && (
-          <div className="grid gap-4">
-            {sessions.map((session) => (
-              <SessionCard key={session.id} session={session} />
-            ))}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Sesiones ({sessions.length})
+            </h2>
+            <div className="grid gap-4">
+              {sessions.map((session) => (
+                <SessionCard key={session.id} session={session} />
+              ))}
+            </div>
           </div>
         )}
 

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"telegram-api/internal/domain"
 	"telegram-api/internal/middleware"
 	"telegram-api/internal/service"
@@ -9,7 +11,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
-
 type SessionHandler struct {
 	service *service.SessionService
 }
@@ -47,12 +48,21 @@ func (h *SessionHandler) Create(c *fiber.Ctx) error {
 
 	var req domain.CreateSessionRequest
 	if err := c.BodyParser(&req); err != nil {
+		logger.Error().Err(err).Msg("❌ Error parseando body en Create session")
 		return c.Status(400).JSON(NewErrorResponse("INVALID_BODY", "JSON inválido"))
 	}
 
 	if errs := ValidateStruct(&req); errs != nil {
+		logger.Warn().Interface("errors", errs).Msg("⚠️ Validación fallida en Create session")
 		return c.Status(400).JSON(Response{Success: false, Error: &ErrorResponse{Code: "VALIDATION", Details: errs}})
 	}
+
+	logger.Debug().
+		Str("user_id", userID.String()).
+		Str("session_name", req.SessionName).
+		Str("auth_method", string(req.AuthMethod)).
+		Int("api_id", req.ApiID).
+		Msg("📝 Intentando crear sesión...")
 
 	session, data, err := h.service.CreateSession(c.Context(), userID, &req)
 	if err != nil {
@@ -150,7 +160,6 @@ func (h *SessionHandler) Get(c *fiber.Ctx) error {
 		return handleSessionError(c, err)
 	}
 
-	// Agregar info útil sobre el estado
 	response := fiber.Map{
 		"session": session,
 	}
@@ -195,6 +204,7 @@ func (h *SessionHandler) Delete(c *fiber.Ctx) error {
 }
 
 func handleSessionError(c *fiber.Ctx, err error) error {
+	// Primero verificar errores conocidos de dominio
 	switch err {
 	case domain.ErrSessionNotFound:
 		return c.Status(404).JSON(NewErrorResponse("NOT_FOUND", "Sesión no encontrada"))
@@ -206,10 +216,29 @@ func handleSessionError(c *fiber.Ctx, err error) error {
 		return c.Status(400).JSON(NewErrorResponse("INVALID_CODE", "Código incorrecto"))
 	case domain.ErrInvalidPhoneNumber:
 		return c.Status(400).JSON(NewErrorResponse("INVALID_PHONE", "Número de teléfono requerido para SMS"))
-	default:
-		if appErr, ok := err.(*domain.AppError); ok {
-			return c.Status(appErr.Status).JSON(NewErrorResponse(appErr.Code, appErr.Message))
-		}
+	case domain.ErrDatabase:
+		logger.Error().Err(err).Msg("❌ Error de base de datos en sesión")
+		return c.Status(500).JSON(NewErrorResponse("DATABASE", "Error de base de datos"))
+	case domain.ErrInternal:
+		logger.Error().Err(err).Msg("❌ Error interno en sesión")
 		return c.Status(500).JSON(NewErrorResponse("INTERNAL", "Error interno"))
 	}
+
+	// Verificar si es AppError
+	if appErr, ok := err.(*domain.AppError); ok {
+		logger.Error().
+			Err(appErr.Err).
+			Str("code", appErr.Code).
+			Int("status", appErr.Status).
+			Msg("❌ AppError en sesión")
+		return c.Status(appErr.Status).JSON(NewErrorResponse(appErr.Code, appErr.Message))
+	}
+
+	// Error desconocido - LOGGEAR SIEMPRE
+	logger.Error().
+		Err(err).
+		Str("error_type", fmt.Sprintf("%T", err)).
+		Msg("❌ Error NO MANEJADO en sesión")
+	
+	return c.Status(500).JSON(NewErrorResponse("INTERNAL", "Error interno"))
 }

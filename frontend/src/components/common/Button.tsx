@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  variant?: 'primary' | 'secondary' | 'danger'
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
   isLoading?: boolean
   fullWidth?: boolean
 }
@@ -22,7 +22,8 @@ export const Button = ({
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    danger: 'btn-danger',
+    ghost: 'btn-ghost',
   }
 
   const widthClass = fullWidth ? 'w-full' : ''

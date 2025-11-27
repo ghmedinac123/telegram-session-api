@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import { Button, Input, Alert } from '@/components/common'
+import { Button, Input, Alert, FileUpload } from '@/components/common'
 import { useSendFileMessage } from '@/hooks'
+import { useToast } from '@/contexts'
 import { ApiException } from '@/types'
-import { FileText, CheckCircle } from 'lucide-react'
+import { Send } from 'lucide-react'
 
 interface SendFileFormProps {
   sessionId: string
 }
 
 export const SendFileForm = ({ sessionId }: SendFileFormProps) => {
+  const toast = useToast()
   const [to, setTo] = useState('')
   const [fileUrl, setFileUrl] = useState('')
   const [caption, setCaption] = useState('')
-  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
   const sendMessage = useSendFileMessage()
@@ -20,10 +21,14 @@ export const SendFileForm = ({ sessionId }: SendFileFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setSuccess('')
 
-    if (!to.trim() || !fileUrl.trim()) {
-      setError('Destinatario y URL del archivo son requeridos')
+    if (!to.trim()) {
+      setError('El destinatario es requerido')
+      return
+    }
+
+    if (!fileUrl.trim()) {
+      setError('El archivo es requerido')
       return
     }
 
@@ -33,7 +38,7 @@ export const SendFileForm = ({ sessionId }: SendFileFormProps) => {
         data: { to: to.trim(), file_url: fileUrl.trim(), caption: caption.trim() || undefined },
       })
 
-      setSuccess(`Archivo enviado exitosamente. Job ID: ${response.job_id}`)
+      toast.success('Archivo enviado', `Job ID: ${response.job_id}`)
       setTo('')
       setFileUrl('')
       setCaption('')
@@ -49,37 +54,29 @@ export const SendFileForm = ({ sessionId }: SendFileFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <Alert variant="error">{error}</Alert>}
-      {success && (
-        <Alert variant="success">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
-            {success}
-          </div>
-        </Alert>
-      )}
 
       <Input
         label="Destinatario"
         type="text"
-        placeholder="@username o +573001234567"
+        placeholder="@username, +573001234567 o ID de chat"
         value={to}
         onChange={(e) => setTo(e.target.value)}
         disabled={sendMessage.isPending}
       />
 
-      <Input
-        label="URL del Archivo"
-        type="url"
-        placeholder="https://example.com/document.pdf"
+      <FileUpload
+        type="file"
+        label="Archivo"
         value={fileUrl}
-        onChange={(e) => setFileUrl(e.target.value)}
+        onChange={setFileUrl}
+        placeholder="https://tu-servidor.com/documento.pdf"
         disabled={sendMessage.isPending}
       />
 
       <Input
         label="Caption (Opcional)"
         type="text"
-        placeholder="Descripción del archivo..."
+        placeholder="Descripcion del archivo..."
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
         disabled={sendMessage.isPending}
@@ -89,9 +86,10 @@ export const SendFileForm = ({ sessionId }: SendFileFormProps) => {
         type="submit"
         variant="primary"
         isLoading={sendMessage.isPending}
-        className="flex items-center gap-2"
+        fullWidth
+        className="h-12"
       >
-        <FileText className="w-4 h-4" />
+        <Send className="w-4 h-4 mr-2" />
         Enviar Archivo
       </Button>
     </form>

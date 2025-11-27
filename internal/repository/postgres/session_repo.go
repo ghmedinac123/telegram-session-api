@@ -37,12 +37,12 @@ func (r *SessionRepository) Create(ctx context.Context, s *domain.TelegramSessio
 func (r *SessionRepository) Update(ctx context.Context, s *domain.TelegramSession) error {
 	query := `
 		UPDATE telegram_sessions SET 
-			session_data = $1, auth_state = $2, telegram_user_id = $3,
-			telegram_username = $4, is_active = $5, updated_at = NOW()
-		WHERE id = $6
+			phone_number = $1, session_data = $2, auth_state = $3, telegram_user_id = $4,
+			telegram_username = $5, is_active = $6, updated_at = NOW()
+		WHERE id = $7
 	`
 	_, err := r.db.Exec(ctx, query,
-		s.SessionData, s.AuthState, s.TelegramUserID,
+		s.PhoneNumber, s.SessionData, s.AuthState, s.TelegramUserID,
 		s.TelegramUsername, s.IsActive, s.ID,
 	)
 	return wrapDBError(err, "actualizar sesión")

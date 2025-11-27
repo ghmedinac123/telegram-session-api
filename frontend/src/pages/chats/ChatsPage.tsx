@@ -12,7 +12,7 @@ export const ChatsPage = () => {
   const navigate = useNavigate()
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null)
 
-  const { data: session, isLoading: sessionLoading } = useSession(sessionId!)
+  const { data: sessionData, isLoading: sessionLoading } = useSession(sessionId!)
   const { data: chatsData, isLoading: chatsLoading, error } = useChats(sessionId!, { limit: 50 })
 
   const isLoading = sessionLoading || chatsLoading
@@ -20,7 +20,7 @@ export const ChatsPage = () => {
   if (!sessionId) {
     return (
       <Layout>
-        <Alert variant="error">ID de sesión no válido</Alert>
+        <Alert variant="error">ID de sesion no valido</Alert>
       </Layout>
     )
   }
@@ -35,13 +35,15 @@ export const ChatsPage = () => {
     )
   }
 
-  if (!session) {
+  if (!sessionData) {
     return (
       <Layout>
-        <Alert variant="error">Sesión no encontrada</Alert>
+        <Alert variant="error">Sesion no encontrada</Alert>
       </Layout>
     )
   }
+
+  const session = sessionData.session
 
   if (!session.is_active) {
     return (
@@ -49,10 +51,10 @@ export const ChatsPage = () => {
         <div className="max-w-2xl mx-auto text-center py-12">
           <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Sesión no activa
+            Sesion no activa
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Esta sesión no está activa. Por favor, verifica la sesión primero.
+            Esta sesion no esta activa. Por favor, verifica la sesion primero.
           </p>
           <Button variant="primary" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -98,7 +100,7 @@ export const ChatsPage = () => {
               No hay chats
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              No se encontraron conversaciones en esta sesión
+              No se encontraron conversaciones en esta sesion
             </p>
           </div>
         )}
@@ -121,7 +123,7 @@ export const ChatsPage = () => {
                   <div className="text-center">
                     <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                     <p className="text-gray-500 dark:text-gray-400">
-                      Selecciona un chat para ver la conversación
+                      Selecciona un chat para ver la conversacion
                     </p>
                   </div>
                 </div>

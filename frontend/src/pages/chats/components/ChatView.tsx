@@ -61,7 +61,7 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
       groups[dateKey].push(msg)
     })
 
-    return Object.entries(groups).map(([date, msgs]) => ({
+    return Object.entries(groups).map(([, msgs]) => ({
       date: msgs[0].date,
       messages: msgs,
     }))

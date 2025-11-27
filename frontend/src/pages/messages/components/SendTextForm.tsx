@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { Button, Input, Alert } from '@/components/common'
 import { useSendTextMessage } from '@/hooks'
+import { useToast } from '@/contexts'
 import { ApiException } from '@/types'
-import { Send, CheckCircle } from 'lucide-react'
+import { Send } from 'lucide-react'
 
 interface SendTextFormProps {
   sessionId: string
 }
 
 export const SendTextForm = ({ sessionId }: SendTextFormProps) => {
+  const toast = useToast()
   const [to, setTo] = useState('')
   const [text, setText] = useState('')
-  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
   const sendMessage = useSendTextMessage()
@@ -19,10 +20,14 @@ export const SendTextForm = ({ sessionId }: SendTextFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setSuccess('')
 
-    if (!to.trim() || !text.trim()) {
-      setError('Todos los campos son requeridos')
+    if (!to.trim()) {
+      setError('El destinatario es requerido')
+      return
+    }
+
+    if (!text.trim()) {
+      setError('El mensaje es requerido')
       return
     }
 
@@ -32,7 +37,7 @@ export const SendTextForm = ({ sessionId }: SendTextFormProps) => {
         data: { to: to.trim(), text: text.trim() },
       })
 
-      setSuccess(`Mensaje enviado exitosamente. Job ID: ${response.job_id}`)
+      toast.success('Mensaje enviado', `Job ID: ${response.job_id}`)
       setTo('')
       setText('')
     } catch (err) {
@@ -47,45 +52,41 @@ export const SendTextForm = ({ sessionId }: SendTextFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <Alert variant="error">{error}</Alert>}
-      {success && (
-        <Alert variant="success">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
-            {success}
-          </div>
-        </Alert>
-      )}
 
       <Input
         label="Destinatario"
         type="text"
-        placeholder="@username o +573001234567"
+        placeholder="@username, +573001234567 o ID de chat"
         value={to}
         onChange={(e) => setTo(e.target.value)}
         disabled={sendMessage.isPending}
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Mensaje
         </label>
         <textarea
-          className="input"
+          className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none"
           rows={6}
-          placeholder="Escribe tu mensaje aquí..."
+          placeholder="Escribe tu mensaje aqui..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           disabled={sendMessage.isPending}
         />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+          {text.length} caracteres
+        </p>
       </div>
 
       <Button
         type="submit"
         variant="primary"
         isLoading={sendMessage.isPending}
-        className="flex items-center gap-2"
+        fullWidth
+        className="h-12"
       >
-        <Send className="w-4 h-4" />
+        <Send className="w-4 h-4 mr-2" />
         Enviar Mensaje
       </Button>
     </form>

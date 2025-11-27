@@ -1,0 +1,46 @@
+# ==================== Secrets ====================
+.env
+.env.local
+.env.production
+.env.*.local
+*.pem
+*.key
+
+# ==================== Binaries ====================
+/api
+*.exe
+*.dll
+*.so
+*.dylib
+
+# ==================== Go ====================
+/vendor/
+go.work
+
+# ==================== IDE ====================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+
+# ==================== Docker ====================
+docker-compose.override.yml
+
+# ==================== Logs ====================
+*.log
+logs/
+
+# ==================== Frontend ====================
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# ==================== Temp ====================
+tmp/
+temp/
+*.tmp

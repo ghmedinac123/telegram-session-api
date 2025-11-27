@@ -1,0 +1,1452 @@
+basePath: /api/v1
+definitions:
+  domain.AudioMessageRequest:
+    description: Mensaje con audio
+    properties:
+      audio_url:
+        example: https://example.com/audio.mp3
+        type: string
+      caption:
+        example: Escucha esto
+        type: string
+      to:
+        example: '@username'
+        type: string
+    required:
+    - audio_url
+    - to
+    type: object
+  domain.AuthMethod:
+    enum:
+    - sms
+    - qr
+    type: string
+    x-enum-varnames:
+    - AuthMethodSMS
+    - AuthMethodQR
+  domain.BulkTextRequest:
+    description: Envío masivo de texto a múltiples destinatarios
+    properties:
+      delay_ms:
+        example: 3000
+        type: integer
+      recipients:
+        example:
+        - '@user1'
+        - '@user2'
+        - "+573001234567"
+        items:
+          type: string
+        minItems: 1
+        type: array
+      text:
+        example: Mensaje para todos
+        type: string
+    required:
+    - recipients
+    - text
+    type: object
+  domain.Chat:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      is_archived:
+        type: boolean
+      is_muted:
+        type: boolean
+      is_pinned:
+        type: boolean
+      last_message:
+        type: string
+      last_message_at:
+        type: string
+      last_message_id:
+        type: integer
+      last_name:
+        type: string
+      photo:
+        type: string
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/domain.ChatType'
+      unread_count:
+        type: integer
+      username:
+        type: string
+    type: object
+  domain.ChatMessage:
+    properties:
+      chat_id:
+        type: integer
+      date:
+        type: string
+      forward_from:
+        type: string
+      from_id:
+        type: integer
+      from_name:
+        type: string
+      id:
+        type: integer
+      is_outgoing:
+        type: boolean
+      is_read:
+        type: boolean
+      media_type:
+        description: photo, video, audio, document, sticker
+        type: string
+      media_url:
+        type: string
+      reply_to_id:
+        type: integer
+      text:
+        type: string
+    type: object
+  domain.ChatType:
+    enum:
+    - private
+    - group
+    - supergroup
+    - channel
+    type: string
+    x-enum-varnames:
+    - ChatTypePrivate
+    - ChatTypeGroup
+    - ChatTypeSupergroup
+    - ChatTypeChannel
+  domain.ChatsResponse:
+    properties:
+      chats:
+        items:
+          $ref: '#/definitions/domain.Chat'
+        type: array
+      has_more:
+        type: boolean
+      total_count:
+        type: integer
+    type: object
+  domain.Contact:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      is_blocked:
+        type: boolean
+      is_mutual:
+        type: boolean
+      last_name:
+        type: string
+      last_seen_at:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+      status:
+        description: online, offline, recently, etc
+        type: string
+      username:
+        type: string
+    type: object
+  domain.ContactsResponse:
+    properties:
+      contacts:
+        items:
+          $ref: '#/definitions/domain.Contact'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  domain.CreateSessionRequest:
+    properties:
+      api_hash:
+        type: string
+      api_id:
+        type: integer
+      auth_method:
+        $ref: '#/definitions/domain.AuthMethod'
+      phone:
+        type: string
+      session_name:
+        type: string
+    required:
+    - api_hash
+    - api_id
+    type: object
+  domain.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 72
+        minLength: 8
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  domain.FileMessageRequest:
+    description: Mensaje con archivo/documento
+    properties:
+      caption:
+        example: Documento adjunto
+        type: string
+      file_url:
+        example: https://example.com/doc.pdf
+        type: string
+      to:
+        example: '@username'
+        type: string
+    required:
+    - file_url
+    - to
+    type: object
+  domain.HistoryResponse:
+    properties:
+      has_more:
+        type: boolean
+      messages:
+        items:
+          $ref: '#/definitions/domain.ChatMessage'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  domain.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  domain.LoginResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+      token_type:
+        type: string
+      user:
+        $ref: '#/definitions/domain.UserInfo'
+    type: object
+  domain.MessageJob:
+    description: Estado detallado del mensaje
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      error:
+        type: string
+      id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      media_url:
+        type: string
+      send_at:
+        type: string
+      sent_at:
+        type: string
+      session_id:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/domain.MessageStatus'
+        example: sent
+      text:
+        type: string
+      to:
+        example: '@username'
+        type: string
+      type:
+        allOf:
+        - $ref: '#/definitions/domain.MessageType'
+        example: text
+    type: object
+  domain.MessageResponse:
+    description: Respuesta de envío de mensaje
+    properties:
+      job_id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      message:
+        example: Mensaje en cola
+        type: string
+      send_at:
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/domain.MessageStatus'
+        example: pending
+    type: object
+  domain.MessageStatus:
+    enum:
+    - pending
+    - scheduled
+    - sending
+    - sent
+    - failed
+    type: string
+    x-enum-varnames:
+    - MessageStatusPending
+    - MessageStatusScheduled
+    - MessageStatusSending
+    - MessageStatusSent
+    - MessageStatusFailed
+  domain.MessageType:
+    enum:
+    - text
+    - photo
+    - video
+    - audio
+    - file
+    type: string
+    x-enum-varnames:
+    - MessageTypeText
+    - MessageTypePhoto
+    - MessageTypeVideo
+    - MessageTypeAudio
+    - MessageTypeFile
+  domain.PhotoMessageRequest:
+    description: Mensaje con foto
+    properties:
+      caption:
+        example: Mira esta imagen
+        type: string
+      photo_url:
+        example: https://example.com/image.jpg
+        type: string
+      to:
+        example: '@username'
+        type: string
+    required:
+    - photo_url
+    - to
+    type: object
+  domain.ResolveRequest:
+    properties:
+      phone:
+        example: "+573001234567"
+        type: string
+      username:
+        example: '@durov'
+        type: string
+    type: object
+  domain.ResolvedPeer:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      is_bot:
+        type: boolean
+      is_verified:
+        type: boolean
+      last_name:
+        type: string
+      phone:
+        type: string
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/domain.ChatType'
+      username:
+        type: string
+    type: object
+  domain.Role:
+    enum:
+    - admin
+    - user
+    type: string
+    x-enum-varnames:
+    - RoleAdmin
+    - RoleUser
+  domain.SessionStatus:
+    enum:
+    - pending
+    - code_sent
+    - password_required
+    - authenticated
+    - failed
+    type: string
+    x-enum-varnames:
+    - SessionPending
+    - SessionCodeSent
+    - SessionPasswordRequired
+    - SessionAuthenticated
+    - SessionFailed
+  domain.TelegramSession:
+    properties:
+      api_id:
+        type: integer
+      auth_state:
+        $ref: '#/definitions/domain.SessionStatus'
+      created_at:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      phone_number:
+        type: string
+      session_name:
+        type: string
+      telegram_user_id:
+        type: integer
+      telegram_username:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  domain.TextMessageRequest:
+    description: Mensaje de texto simple
+    properties:
+      text:
+        example: Hola desde la API!
+        type: string
+      to:
+        example: '@username o +573001234567'
+        type: string
+    required:
+    - text
+    - to
+    type: object
+  domain.UserInfo:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      role:
+        $ref: '#/definitions/domain.Role'
+      username:
+        type: string
+    type: object
+  domain.VerifyCodeRequest:
+    properties:
+      code:
+        maxLength: 6
+        minLength: 5
+        type: string
+    required:
+    - code
+    type: object
+  domain.VideoMessageRequest:
+    description: Mensaje con video
+    properties:
+      caption:
+        example: Video interesante
+        type: string
+      to:
+        example: '@username'
+        type: string
+      video_url:
+        example: https://example.com/video.mp4
+        type: string
+    required:
+    - to
+    - video_url
+    type: object
+  domain.WebhookConfig:
+    properties:
+      created_at:
+        type: string
+      events:
+        description: Tipos de eventos a enviar
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      is_active:
+        type: boolean
+      last_error:
+        type: string
+      last_error_at:
+        type: string
+      max_retries:
+        type: integer
+      secret:
+        description: Para firmar requests
+        type: string
+      session_id:
+        type: string
+      timeout_ms:
+        type: integer
+      updated_at:
+        type: string
+      url:
+        type: string
+    type: object
+  domain.WebhookCreateRequest:
+    properties:
+      events:
+        example:
+        - message.new
+        - message.edit
+        items:
+          type: string
+        type: array
+      max_retries:
+        example: 3
+        type: integer
+      secret:
+        example: mi_secret_123
+        type: string
+      timeout_ms:
+        example: 5000
+        type: integer
+      url:
+        example: https://mi-servidor.com/webhook
+        type: string
+    required:
+    - url
+    type: object
+  domain.WebhookResponse:
+    properties:
+      events:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      is_active:
+        type: boolean
+      session_id:
+        type: string
+      url:
+        type: string
+    type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        type: string
+      details: {}
+      message:
+        type: string
+    type: object
+  handler.MetaResponse:
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  handler.Response:
+    properties:
+      data: {}
+      error:
+        $ref: '#/definitions/handler.ErrorResponse'
+      meta:
+        $ref: '#/definitions/handler.MetaResponse'
+      success:
+        type: boolean
+    type: object
+host: localhost:7789
+info:
+  contact: {}
+  description: API REST para gestionar múltiples sesiones de Telegram via MTProto
+  title: Telegram API
+  version: 0.1.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica usuario y retorna tokens
+      parameters:
+      - description: Credenciales
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.LoginResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Login
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Revoca el refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            refresh_token:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Cerrar sesión
+      tags:
+      - Auth
+  /auth/me:
+    get:
+      description: Retorna información del usuario autenticado
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.UserInfo'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Info usuario actual
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Genera nuevos tokens usando refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            refresh_token:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.LoginResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Renovar tokens
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva cuenta de usuario
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.UserInfo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Registrar usuario
+      tags:
+      - Auth
+  /messages/{jobId}/status:
+    get:
+      description: Consulta estado de un mensaje enviado
+      parameters:
+      - description: Job ID
+        in: path
+        name: jobId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageJob'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Estado del mensaje
+      tags:
+      - Messages
+  /pool/status:
+    get:
+      description: Retorna información de sesiones activas escuchando
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Estado del pool
+      tags:
+      - Webhooks
+  /sessions:
+    get:
+      description: Retorna todas las sesiones Telegram del usuario
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.TelegramSession'
+                  type: array
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Listar sesiones
+      tags:
+      - Sessions
+    post:
+      consumes:
+      - application/json
+      description: Inicia autenticación con Telegram (SMS o QR). Para QR, el sistema
+        escucha automáticamente en background.
+      parameters:
+      - description: Credenciales Telegram
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateSessionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Crear sesión Telegram
+      tags:
+      - Sessions
+  /sessions/{id}:
+    delete:
+      description: Elimina una sesión Telegram
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Eliminar sesión
+      tags:
+      - Sessions
+    get:
+      description: Retorna detalle de una sesión. Use para verificar si QR fue escaneado
+        (is_active=true).
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.TelegramSession'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Obtener sesión
+      tags:
+      - Sessions
+  /sessions/{id}/chats:
+    get:
+      description: Obtiene la lista de chats/diálogos de la sesión
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Límite de resultados (default 50, max 100)
+        in: query
+        name: limit
+        type: integer
+      - description: Offset para paginación
+        in: query
+        name: offset
+        type: integer
+      - description: Incluir chats archivados
+        in: query
+        name: archived
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.ChatsResponse'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Listar chats
+      tags:
+      - Chats
+  /sessions/{id}/chats/{chatId}:
+    get:
+      description: Obtiene información detallada de un chat específico
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Chat ID
+        in: path
+        name: chatId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Chat'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener información de chat
+      tags:
+      - Chats
+  /sessions/{id}/chats/{chatId}/history:
+    get:
+      description: Obtiene el historial de mensajes de un chat
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Chat ID
+        in: path
+        name: chatId
+        required: true
+        type: integer
+      - description: Límite de mensajes (default 50, max 100)
+        in: query
+        name: limit
+        type: integer
+      - description: ID del mensaje desde donde empezar
+        in: query
+        name: offset_id
+        type: integer
+      - description: Timestamp unix desde donde empezar
+        in: query
+        name: offset_date
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.HistoryResponse'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener historial de mensajes
+      tags:
+      - Chats
+  /sessions/{id}/contacts:
+    get:
+      description: Obtiene la lista de contactos de Telegram
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.ContactsResponse'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Listar contactos
+      tags:
+      - Contacts
+  /sessions/{id}/messages/audio:
+    post:
+      consumes:
+      - application/json
+      description: Envía archivo de audio
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Audio
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.AudioMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Enviar audio
+      tags:
+      - Messages
+  /sessions/{id}/messages/bulk:
+    post:
+      consumes:
+      - application/json
+      description: Envía mensaje de texto a múltiples destinatarios con delay
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Mensaje masivo
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.BulkTextRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.MessageResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Envío masivo
+      tags:
+      - Messages
+  /sessions/{id}/messages/file:
+    post:
+      consumes:
+      - application/json
+      description: Envía archivo/documento
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Archivo
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.FileMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Enviar documento
+      tags:
+      - Messages
+  /sessions/{id}/messages/photo:
+    post:
+      consumes:
+      - application/json
+      description: Envía imagen con caption opcional
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Foto
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.PhotoMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Enviar foto
+      tags:
+      - Messages
+  /sessions/{id}/messages/text:
+    post:
+      consumes:
+      - application/json
+      description: Envía mensaje de texto simple
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Mensaje de texto
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.TextMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Enviar texto
+      tags:
+      - Messages
+  /sessions/{id}/messages/video:
+    post:
+      consumes:
+      - application/json
+      description: Envía video con caption opcional
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Video
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.VideoMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.MessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Enviar video
+      tags:
+      - Messages
+  /sessions/{id}/resolve:
+    post:
+      consumes:
+      - application/json
+      description: Resuelve un @username o número de teléfono a un peer de Telegram
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Username o teléfono
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ResolveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.ResolvedPeer'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Resolver username o teléfono
+      tags:
+      - Contacts
+  /sessions/{id}/verify:
+    post:
+      consumes:
+      - application/json
+      description: Completa autenticación con el código recibido por SMS
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Código SMS
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.VerifyCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.TelegramSession'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "410":
+          description: Gone
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Verificar código SMS
+      tags:
+      - Sessions
+  /sessions/{id}/webhook:
+    delete:
+      description: Elimina configuración de webhook
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Eliminar webhook
+      tags:
+      - Webhooks
+    get:
+      description: Retorna configuración actual del webhook
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.WebhookConfig'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener webhook
+      tags:
+      - Webhooks
+    post:
+      consumes:
+      - application/json
+      description: Configura URL de webhook para recibir eventos de la sesión
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Configuración
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.WebhookCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.WebhookResponse'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Configurar webhook
+      tags:
+      - Webhooks
+  /sessions/{id}/webhook/start:
+    post:
+      description: Inicia la escucha de eventos de Telegram para esta sesión
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Iniciar escucha
+      tags:
+      - Webhooks
+  /sessions/{id}/webhook/stop:
+    post:
+      description: Detiene la escucha de eventos para esta sesión
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Detener escucha
+      tags:
+      - Webhooks
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,5001 @@
+{
+  "_": {
+    "postman_id": "a665b5f7-fb6e-4249-a509-b587c63f22b3"
+  },
+  "item": [
+    {
+      "id": "e90a3852-7bc7-407a-9f89-2b3e884d0317",
+      "name": "Auth",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cef7c888-d03f-4dbc-85a0-5df78edbfd9f",
+          "name": "Login",
+          "request": {
+            "name": "Login",
+            "description": {
+              "content": "Autentica usuario y retorna tokens",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"culpa fugiat ad esse\",\n  \"username\": \"voluptate\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "b22b6ba0-9fed-4786-82ff-b504e8081ec7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"culpa fugiat ad esse\",\n  \"username\": \"voluptate\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"access_token\": \"laborum\",\n    \"expires_in\": -4770801,\n    \"refresh_token\": \"magna in\",\n    \"token_type\": \"eiusmod voluptate cillum elit ex\",\n    \"user\": {\n      \"email\": \"sunt labor\",\n      \"id\": \"nostrud amet Duis incididunt\",\n      \"role\": \"user\",\n      \"username\": \"nulla labore in cupid\"\n    }\n  },\n  \"error\": {\n    \"code\": \"non dolor in laborum\",\n    \"details\": {},\n    \"message\": \"consequat quis\"\n  },\n  \"meta\": {\n    \"page\": -55725504,\n    \"per_page\": 48512622,\n    \"total\": 3826649,\n    \"total_pages\": 82121721\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "755059e9-292f-468d-97b6-441a8e187ee1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"culpa fugiat ad esse\",\n  \"username\": \"voluptate\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d7a0a363-ba87-40a3-b44a-ec56a97df9f1",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/auth/login - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2415d178-bb98-4ebd-8b4c-e487049f1426",
+          "name": "Cerrar sesión",
+          "request": {
+            "name": "Cerrar sesión",
+            "description": {
+              "content": "Revoca el refresh token",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "logout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"veniam non fugiat\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "f40a7813-cccd-49e7-9fcb-e5ed08f90bd7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "logout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"veniam non fugiat\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c6c29863-e9ee-411a-95f2-cdde9e4c3146",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/auth/logout - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec80b293-d502-4728-885b-35832757ecc0",
+          "name": "Info usuario actual",
+          "request": {
+            "name": "Info usuario actual",
+            "description": {
+              "content": "Retorna información del usuario autenticado",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "6f325541-62b5-4d46-98a5-8902927d1a15",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"email\": \"aliquip est consequat dolor\",\n    \"id\": \"molli\",\n    \"role\": \"user\",\n    \"username\": \"magna esse nisi anim\"\n  },\n  \"error\": {\n    \"code\": \"irure elit\",\n    \"details\": {},\n    \"message\": \"voluptate velit sit\"\n  },\n  \"meta\": {\n    \"page\": -54550048,\n    \"per_page\": 41066967,\n    \"total\": -82917082,\n    \"total_pages\": -88290210\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "07f0b487-ead5-4202-8bc7-a8923ac35651",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "060afcfd-d56a-4bc3-9f5b-0a90535a5f81",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/auth/me - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36f6877f-f5cb-4267-ba4b-0fda76542607",
+          "name": "Renovar tokens",
+          "request": {
+            "name": "Renovar tokens",
+            "description": {
+              "content": "Genera nuevos tokens usando refresh token",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "refresh"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"veniam non fugiat\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "b8c5cc4f-608e-49cf-b4e2-4a11b91c1f0d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "refresh"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"veniam non fugiat\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"access_token\": \"laborum\",\n    \"expires_in\": -4770801,\n    \"refresh_token\": \"magna in\",\n    \"token_type\": \"eiusmod voluptate cillum elit ex\",\n    \"user\": {\n      \"email\": \"sunt labor\",\n      \"id\": \"nostrud amet Duis incididunt\",\n      \"role\": \"user\",\n      \"username\": \"nulla labore in cupid\"\n    }\n  },\n  \"error\": {\n    \"code\": \"non dolor in laborum\",\n    \"details\": {},\n    \"message\": \"consequat quis\"\n  },\n  \"meta\": {\n    \"page\": -55725504,\n    \"per_page\": 48512622,\n    \"total\": 3826649,\n    \"total_pages\": 82121721\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "54484833-8add-40e4-89de-9196e27ba8be",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "refresh"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"veniam non fugiat\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9da2575d-3f81-4a0e-b1a2-5b51b68065dc",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/auth/refresh - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a79b3467-13f7-4d11-901f-2e542b2d11de",
+          "name": "Registrar usuario",
+          "request": {
+            "name": "Registrar usuario",
+            "description": {
+              "content": "Crea una nueva cuenta de usuario",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"minim elit\",\n  \"password\": \"est amet aliqua deserunt\",\n  \"username\": \"nisi\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "dc1b2b5f-103a-4159-aeb3-ee65dca11955",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"minim elit\",\n  \"password\": \"est amet aliqua deserunt\",\n  \"username\": \"nisi\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"email\": \"aliquip est consequat dolor\",\n    \"id\": \"molli\",\n    \"role\": \"user\",\n    \"username\": \"magna esse nisi anim\"\n  },\n  \"error\": {\n    \"code\": \"irure elit\",\n    \"details\": {},\n    \"message\": \"voluptate velit sit\"\n  },\n  \"meta\": {\n    \"page\": -54550048,\n    \"per_page\": 41066967,\n    \"total\": -82917082,\n    \"total_pages\": -88290210\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "bde01089-2eb8-4e46-b572-ed6778e362af",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"minim elit\",\n  \"password\": \"est amet aliqua deserunt\",\n  \"username\": \"nisi\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "24001ad0-a669-4304-b146-e1d302ab43b7",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"minim elit\",\n  \"password\": \"est amet aliqua deserunt\",\n  \"username\": \"nisi\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c097dfb6-6684-4e7b-a248-5f8777ad6115",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/auth/register - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0afea1b9-db71-4f76-bd7d-b6657dcc55ea",
+      "name": "Messages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "697193fa-69bc-415b-ac73-e11096e5eb7f",
+          "name": "Estado del mensaje",
+          "request": {
+            "name": "Estado del mensaje",
+            "description": {
+              "content": "Consulta estado de un mensaje enviado",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                ":jobId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Job ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "jobId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "33307dd5-e9be-4995-8c86-daeed337e7b3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":jobId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"caption\": \"do in\",\n    \"created_at\": \"velit sed eu mollit\",\n    \"error\": \"exercitation nostrud mollit\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"media_url\": \"reprehenderit magna occaecat voluptate\",\n    \"send_at\": \"elit esse sed consequ\",\n    \"sent_at\": \"ea nulla dolor\",\n    \"session_id\": \"adipisicing laboris eiusmod\",\n    \"status\": \"sent\",\n    \"text\": \"in dolor incididunt enim\",\n    \"to\": \"@username\",\n    \"type\": \"text\"\n  },\n  \"error\": {\n    \"code\": \"velit est et\",\n    \"details\": {},\n    \"message\": \"aute dolore\"\n  },\n  \"meta\": {\n    \"page\": 5359731,\n    \"per_page\": -99706671,\n    \"total\": -61702047,\n    \"total_pages\": -71857411\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "68e6c214-4216-4162-b74e-32c0beff5589",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":jobId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ee7c5e4d-c840-4238-bf6a-355c32d090ce",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/messages/:jobId/status - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0403378c-ae4c-41bf-875c-df501515309c",
+          "name": "Enviar audio",
+          "request": {
+            "name": "Enviar audio",
+            "description": {
+              "content": "Envía archivo de audio",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "audio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audio_url\": \"https://example.com/audio.mp3\",\n  \"to\": \"@username\",\n  \"caption\": \"Escucha esto\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "7031b827-fdcf-433d-b3dc-426a7656642e",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "audio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"audio_url\": \"https://example.com/audio.mp3\",\n  \"to\": \"@username\",\n  \"caption\": \"Escucha esto\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"message\": \"Mensaje en cola\",\n    \"send_at\": \"elit ut Excepteur reprehenderit non\",\n    \"status\": \"pending\"\n  },\n  \"error\": {\n    \"code\": \"fugiat id dolor\",\n    \"details\": {},\n    \"message\": \"culpa voluptate aliqua\"\n  },\n  \"meta\": {\n    \"page\": 76604714,\n    \"per_page\": -4875546,\n    \"total\": -44788631,\n    \"total_pages\": -97645139\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "8e24123e-f3aa-437b-bb27-ea282782c114",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "audio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"audio_url\": \"https://example.com/audio.mp3\",\n  \"to\": \"@username\",\n  \"caption\": \"Escucha esto\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e6a49eff-6e40-4a10-8331-cd523ef55e61",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/audio - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f289cdbc-20a5-4381-8607-04ccb04e7472",
+          "name": "Envío masivo",
+          "request": {
+            "name": "Envío masivo",
+            "description": {
+              "content": "Envía mensaje de texto a múltiples destinatarios con delay",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipients\": [\n    \"@user1\",\n    \"@user2\",\n    \"+573001234567\"\n  ],\n  \"text\": \"Mensaje para todos\",\n  \"delay_ms\": 3000\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d2dde1b1-5e16-46d6-834d-c6c95209a9a5",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recipients\": [\n    \"@user1\",\n    \"@user2\",\n    \"+573001234567\"\n  ],\n  \"text\": \"Mensaje para todos\",\n  \"delay_ms\": 3000\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"message\": \"Mensaje en cola\",\n      \"send_at\": \"incididunt eiusmod nostrud\",\n      \"status\": \"pending\"\n    },\n    {\n      \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"message\": \"Mensaje en cola\",\n      \"send_at\": \"officia commodo ex\",\n      \"status\": \"pending\"\n    }\n  ],\n  \"error\": {\n    \"code\": \"occaecat qui\",\n    \"details\": {},\n    \"message\": \"anim laborum\"\n  },\n  \"meta\": {\n    \"page\": -32762935,\n    \"per_page\": -63050710,\n    \"total\": 76147066,\n    \"total_pages\": 15888503\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "b02e4e00-b71b-4211-a0fb-b47e9c28f3b5",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"recipients\": [\n    \"@user1\",\n    \"@user2\",\n    \"+573001234567\"\n  ],\n  \"text\": \"Mensaje para todos\",\n  \"delay_ms\": 3000\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9a3d6887-1caf-4df6-9aca-2900dc4e3d87",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/bulk - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "89eefcd2-574d-435e-98f4-15d7f503ba2c",
+          "name": "Enviar documento",
+          "request": {
+            "name": "Enviar documento",
+            "description": {
+              "content": "Envía archivo/documento",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file_url\": \"https://example.com/doc.pdf\",\n  \"to\": \"@username\",\n  \"caption\": \"Documento adjunto\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "04e301c5-490a-4f1f-bb4d-1eb3dcc049aa",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file_url\": \"https://example.com/doc.pdf\",\n  \"to\": \"@username\",\n  \"caption\": \"Documento adjunto\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"message\": \"Mensaje en cola\",\n    \"send_at\": \"elit ut Excepteur reprehenderit non\",\n    \"status\": \"pending\"\n  },\n  \"error\": {\n    \"code\": \"fugiat id dolor\",\n    \"details\": {},\n    \"message\": \"culpa voluptate aliqua\"\n  },\n  \"meta\": {\n    \"page\": 76604714,\n    \"per_page\": -4875546,\n    \"total\": -44788631,\n    \"total_pages\": -97645139\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "7aac5508-e2c6-4746-afb2-2e2adf8e2a07",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"file_url\": \"https://example.com/doc.pdf\",\n  \"to\": \"@username\",\n  \"caption\": \"Documento adjunto\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b2cb6bd-6c50-4180-ae35-cf6622aa55d2",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/file - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cbdc1a7f-b78a-4fab-bf45-edfd15931344",
+          "name": "Enviar foto",
+          "request": {
+            "name": "Enviar foto",
+            "description": {
+              "content": "Envía imagen con caption opcional",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "photo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"photo_url\": \"https://example.com/image.jpg\",\n  \"to\": \"@username\",\n  \"caption\": \"Mira esta imagen\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "ec28456e-a47a-4d25-8b5e-31051c3cd50f",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"photo_url\": \"https://example.com/image.jpg\",\n  \"to\": \"@username\",\n  \"caption\": \"Mira esta imagen\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"message\": \"Mensaje en cola\",\n    \"send_at\": \"elit ut Excepteur reprehenderit non\",\n    \"status\": \"pending\"\n  },\n  \"error\": {\n    \"code\": \"fugiat id dolor\",\n    \"details\": {},\n    \"message\": \"culpa voluptate aliqua\"\n  },\n  \"meta\": {\n    \"page\": 76604714,\n    \"per_page\": -4875546,\n    \"total\": -44788631,\n    \"total_pages\": -97645139\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "8662163f-64ff-464a-aa34-a8fe89581f7b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"photo_url\": \"https://example.com/image.jpg\",\n  \"to\": \"@username\",\n  \"caption\": \"Mira esta imagen\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f871b2a2-9374-4cf6-91ba-dfccf0e48653",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/photo - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c05ea9a2-07f7-4220-9385-298a28edcb2e",
+          "name": "Enviar texto",
+          "request": {
+            "name": "Enviar texto",
+            "description": {
+              "content": "Envía mensaje de texto simple",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "text"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Hola desde la API!\",\n  \"to\": \"@username o +573001234567\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "3a910016-8022-4fa4-b83f-dac73b1494d9",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Hola desde la API!\",\n  \"to\": \"@username o +573001234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"message\": \"Mensaje en cola\",\n    \"send_at\": \"elit ut Excepteur reprehenderit non\",\n    \"status\": \"pending\"\n  },\n  \"error\": {\n    \"code\": \"fugiat id dolor\",\n    \"details\": {},\n    \"message\": \"culpa voluptate aliqua\"\n  },\n  \"meta\": {\n    \"page\": 76604714,\n    \"per_page\": -4875546,\n    \"total\": -44788631,\n    \"total_pages\": -97645139\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "3f3ab951-636b-4395-8025-c05cde6799f9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Hola desde la API!\",\n  \"to\": \"@username o +573001234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "1af85717-54ef-4b0c-9368-25bd48ea82af",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Hola desde la API!\",\n  \"to\": \"@username o +573001234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fbb47644-0d42-4734-8f42-fd1a5ec0b99d",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/text - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f697a063-8c00-4759-822b-54f8d4ef9fd5",
+          "name": "Enviar video",
+          "request": {
+            "name": "Enviar video",
+            "description": {
+              "content": "Envía video con caption opcional",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "messages",
+                "video"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"@username\",\n  \"video_url\": \"https://example.com/video.mp4\",\n  \"caption\": \"Video interesante\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "f38cba4c-61ef-4c3d-b64f-805d5a6ba0e1",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "video"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"@username\",\n  \"video_url\": \"https://example.com/video.mp4\",\n  \"caption\": \"Video interesante\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"job_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"message\": \"Mensaje en cola\",\n    \"send_at\": \"elit ut Excepteur reprehenderit non\",\n    \"status\": \"pending\"\n  },\n  \"error\": {\n    \"code\": \"fugiat id dolor\",\n    \"details\": {},\n    \"message\": \"culpa voluptate aliqua\"\n  },\n  \"meta\": {\n    \"page\": 76604714,\n    \"per_page\": -4875546,\n    \"total\": -44788631,\n    \"total_pages\": -97645139\n  },\n  \"success\": false\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "4b9e83a8-93bd-4a7d-8691-1fec07365c16",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "messages",
+                    "video"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"to\": \"@username\",\n  \"video_url\": \"https://example.com/video.mp4\",\n  \"caption\": \"Video interesante\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cae4df6a-0ffa-43d6-899c-56d5bfda6d36",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/messages/video - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4403605e-7879-4604-9fa0-038df20a49dd",
+      "name": "Webhooks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1cb9803d-aed7-4023-aa0e-f1e2fb83cd1d",
+          "name": "Estado del pool",
+          "request": {
+            "name": "Estado del pool",
+            "description": {
+              "content": "Retorna información de sesiones activas escuchando",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pool",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "a04a0a2e-062c-4f44-9e6e-4cce9bfa59b3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pool",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "321856bd-3130-4645-864a-8b88bd372c94",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/pool/status - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40884446-d30d-4297-8aca-cc9507211904",
+          "name": "Obtener webhook",
+          "request": {
+            "name": "Obtener webhook",
+            "description": {
+              "content": "Retorna configuración actual del webhook",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "webhook"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d0aa223a-6bf0-4fb3-b0f1-8805ec4f7e8d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "webhook"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"created_at\": \"aliquip dolor Ut elit\",\n    \"events\": [\n      \"amet Excepteur elit magna\",\n      \"tempor elit pariatur sunt\"\n    ],\n    \"id\": \"cupidatat ad\",\n    \"is_active\": true,\n    \"last_error\": \"sint\",\n    \"last_error_at\": \"minim sint\",\n    \"max_retries\": 2074477,\n    \"secret\": \"ea sint eu occae\",\n    \"session_id\": \"magna dolor nulla\",\n    \"timeout_ms\": -69657358,\n    \"updated_at\": \"ad veniam commodo nulla ullamco\",\n    \"url\": \"non in consequat\"\n  },\n  \"error\": {\n    \"code\": \"cupidatat\",\n    \"details\": {},\n    \"message\": \"occaecat\"\n  },\n  \"meta\": {\n    \"page\": -574855,\n    \"per_page\": 85717737,\n    \"total\": -68345401,\n    \"total_pages\": 1239299\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1944bcab-0d74-46eb-9e95-8218b5442444",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id/webhook - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce9bd1c9-5cd0-46a7-a219-fcc29e123606",
+          "name": "Configurar webhook",
+          "request": {
+            "name": "Configurar webhook",
+            "description": {
+              "content": "Configura URL de webhook para recibir eventos de la sesión",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "webhook"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://mi-servidor.com/webhook\",\n  \"events\": [\n    \"message.new\",\n    \"message.edit\"\n  ],\n  \"max_retries\": 3,\n  \"secret\": \"mi_secret_123\",\n  \"timeout_ms\": 5000\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "c2d13cd6-aaad-47de-ba2b-a169b508af0b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "webhook"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"https://mi-servidor.com/webhook\",\n  \"events\": [\n    \"message.new\",\n    \"message.edit\"\n  ],\n  \"max_retries\": 3,\n  \"secret\": \"mi_secret_123\",\n  \"timeout_ms\": 5000\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"events\": [\n      \"nostrud minim in veniam\",\n      \"culpa nostrud laborum veniam ut\"\n    ],\n    \"id\": \"cillum sint sed dolore amet\",\n    \"is_active\": false,\n    \"session_id\": \"deserunt\",\n    \"url\": \"ea sed laborum dolor\"\n  },\n  \"error\": {\n    \"code\": \"sint \",\n    \"details\": {},\n    \"message\": \"mollit qu\"\n  },\n  \"meta\": {\n    \"page\": 6811896,\n    \"per_page\": 77183646,\n    \"total\": 87775541,\n    \"total_pages\": -89478264\n  },\n  \"success\": false\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "68892840-0808-49fa-bba8-6cc493d2b751",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/webhook - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a976947a-d508-4cb9-952e-64f919a90e7b",
+          "name": "Eliminar webhook",
+          "request": {
+            "name": "Eliminar webhook",
+            "description": {
+              "content": "Elimina configuración de webhook",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "webhook"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "e3013426-0e5c-4404-81fb-39a329c88d6e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "webhook"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "20906822-7edb-492d-bed8-23174ccdc8c6",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/sessions/:id/webhook - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "369ff677-3a63-47cb-902d-053e0f1c4fdc",
+          "name": "Iniciar escucha",
+          "request": {
+            "name": "Iniciar escucha",
+            "description": {
+              "content": "Inicia la escucha de eventos de Telegram para esta sesión",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "webhook",
+                "start"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "1129ab5f-6532-477d-ab55-c64940ad3603",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "webhook",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f3718291-178a-4944-8959-5d7d77403bc1",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/webhook/start - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86f56ddf-a996-4c7c-ac6f-330824cb33a4",
+          "name": "Detener escucha",
+          "request": {
+            "name": "Detener escucha",
+            "description": {
+              "content": "Detiene la escucha de eventos para esta sesión",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "webhook",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "c63a92d8-1097-4823-9a8d-978660969fe5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "webhook",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "eb3cd267-5f51-4e23-aad5-083c9f9ce49a",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/webhook/stop - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "43d41ec2-92ce-4e5b-9e68-072157c3a13d",
+      "name": "Sessions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c760ae90-41e5-416e-96e0-c4d8182325d1",
+          "name": "Listar sesiones",
+          "request": {
+            "name": "Listar sesiones",
+            "description": {
+              "content": "Retorna todas las sesiones Telegram del usuario",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "212ef8ff-aed1-4849-ba16-aae6c9b2a69f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"api_id\": 47712797,\n      \"auth_state\": \"code_sent\",\n      \"created_at\": \"amet in ut\",\n      \"id\": \"aliqua sit adipisicing eiusmod dolor\",\n      \"is_active\": true,\n      \"phone_number\": \"minim consequat ut\",\n      \"session_name\": \"eu et mollit\",\n      \"telegram_user_id\": 40375861,\n      \"telegram_username\": \"ullamco ipsum incididunt fugiat\",\n      \"updated_at\": \"nulla qui\",\n      \"user_id\": \"ut\"\n    },\n    {\n      \"api_id\": -52116793,\n      \"auth_state\": \"failed\",\n      \"created_at\": \"laborum tempor dolore\",\n      \"id\": \"et\",\n      \"is_active\": true,\n      \"phone_number\": \"Lorem irure\",\n      \"session_name\": \"Duis et proident cupidatat commodo\",\n      \"telegram_user_id\": -66392463,\n      \"telegram_username\": \"ea in in veniam\",\n      \"updated_at\": \"velit incididunt exercitation tempor ut\",\n      \"user_id\": \"ut irure occaecat\"\n    }\n  ],\n  \"error\": {\n    \"code\": \"ex\",\n    \"details\": {},\n    \"message\": \"aliqua commodo dolor\"\n  },\n  \"meta\": {\n    \"page\": -659238,\n    \"per_page\": 81209699,\n    \"total\": 62248279,\n    \"total_pages\": 7893650\n  },\n  \"success\": false\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "88b4c010-e23c-4ccd-9a5c-2a22a127f23d",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0d4f7c6-1e6a-4697-9ef2-fb30ca50e940",
+          "name": "Crear sesión Telegram",
+          "request": {
+            "name": "Crear sesión Telegram",
+            "description": {
+              "content": "Inicia autenticación con Telegram (SMS o QR). Para QR, el sistema escucha automáticamente en background.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_hash\": \"ex tempor Excepteur laborum\",\n  \"api_id\": 68869890,\n  \"auth_method\": \"qr\",\n  \"phone\": \"ad sint velit\",\n  \"session_name\": \"quis\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d1394f7a-e026-49c7-b4e1-5ccdb72d7d39",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_hash\": \"ex tempor Excepteur laborum\",\n  \"api_id\": 68869890,\n  \"auth_method\": \"qr\",\n  \"phone\": \"ad sint velit\",\n  \"session_name\": \"quis\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "277b1315-d67a-4c2f-84d2-483f2b1d83e4",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_hash\": \"ex tempor Excepteur laborum\",\n  \"api_id\": 68869890,\n  \"auth_method\": \"qr\",\n  \"phone\": \"ad sint velit\",\n  \"session_name\": \"quis\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "84894a19-c31a-4239-9e83-2f587c3810fc",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_hash\": \"ex tempor Excepteur laborum\",\n  \"api_id\": 68869890,\n  \"auth_method\": \"qr\",\n  \"phone\": \"ad sint velit\",\n  \"session_name\": \"quis\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d66c8758-f190-4a49-be78-44946bd2c07f",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b45552ab-1371-445b-a583-9ff7fa04a8be",
+          "name": "Obtener sesión",
+          "request": {
+            "name": "Obtener sesión",
+            "description": {
+              "content": "Retorna detalle de una sesión. Use para verificar si QR fue escaneado (is_active=true).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "84530c1b-fcae-459d-80e5-49cf5933b45d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"api_id\": 25603739,\n    \"auth_state\": \"password_required\",\n    \"created_at\": \"ullamco non adipisicing velit et\",\n    \"id\": \"fugiat ex Lorem\",\n    \"is_active\": true,\n    \"phone_number\": \"ex\",\n    \"session_name\": \"aliquip magna proident\",\n    \"telegram_user_id\": -42472158,\n    \"telegram_username\": \"velit dolor eu sunt mollit\",\n    \"updated_at\": \"ad sit\",\n    \"user_id\": \"minim irure\"\n  },\n  \"error\": {\n    \"code\": \"dolore aliquip eu nisi adipisicing\",\n    \"details\": {},\n    \"message\": \"velit pariatur laborum\"\n  },\n  \"meta\": {\n    \"page\": 18551218,\n    \"per_page\": 60646065,\n    \"total\": 34545108,\n    \"total_pages\": -47435085\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "9ff07bb1-d301-4b03-b2e3-dcef464819a5",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "35b40eb4-6474-482b-ad16-989e75efae0b",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aec7f824-8b4f-4c72-b860-bd6a78a45caa",
+          "name": "Eliminar sesión",
+          "request": {
+            "name": "Eliminar sesión",
+            "description": {
+              "content": "Elimina una sesión Telegram",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "fcf96901-92f8-4c2d-aad0-19d1d2d8a7bc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "f76cda57-2e44-46ec-9040-be195de3b257",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2c6bf601-f7f6-42e8-8ab8-e2439bae658c",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/sessions/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1ec3759-03e2-44ca-aad1-388cff727fae",
+          "name": "Verificar código SMS",
+          "request": {
+            "name": "Verificar código SMS",
+            "description": {
+              "content": "Completa autenticación con el código recibido por SMS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "verify"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"cupida\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "29457676-f223-4e57-9d05-c296e68628c6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"cupida\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"api_id\": 25603739,\n    \"auth_state\": \"password_required\",\n    \"created_at\": \"ullamco non adipisicing velit et\",\n    \"id\": \"fugiat ex Lorem\",\n    \"is_active\": true,\n    \"phone_number\": \"ex\",\n    \"session_name\": \"aliquip magna proident\",\n    \"telegram_user_id\": -42472158,\n    \"telegram_username\": \"velit dolor eu sunt mollit\",\n    \"updated_at\": \"ad sit\",\n    \"user_id\": \"minim irure\"\n  },\n  \"error\": {\n    \"code\": \"dolore aliquip eu nisi adipisicing\",\n    \"details\": {},\n    \"message\": \"velit pariatur laborum\"\n  },\n  \"meta\": {\n    \"page\": 18551218,\n    \"per_page\": 60646065,\n    \"total\": 34545108,\n    \"total_pages\": -47435085\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "077dfbe3-2a68-4a11-9b54-c269b450ed70",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"cupida\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d6cb4c90-c579-472f-84d9-6aa681a4e853",
+              "name": "Gone",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "verify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"cupida\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"error\": {\n    \"code\": \"Duis eu dolor\",\n    \"details\": {},\n    \"message\": \"Duis elit\"\n  },\n  \"meta\": {\n    \"page\": 69970065,\n    \"per_page\": 99258073,\n    \"total\": -99815941,\n    \"total_pages\": 93958767\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4aea84cf-bc64-499a-aee5-5b4866bae034",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/verify - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1d019634-c11f-49c1-9eb6-642c739481aa",
+      "name": "Chats",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6a5b996-aae2-4bc6-bbd1-bab10002bd24",
+          "name": "Listar chats",
+          "request": {
+            "name": "Listar chats",
+            "description": {
+              "content": "Obtiene la lista de chats/diálogos de la sesión",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "chats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Límite de resultados (default 50, max 100)",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "-94549074"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset para paginación",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "-94549074"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Incluir chats archivados",
+                    "type": "text/plain"
+                  },
+                  "key": "archived",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "49208e3a-22f0-48ab-a4ab-a5a388d2fc9e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "chats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Límite de resultados (default 50, max 100)",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "-94549074"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset para paginación",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "-94549074"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Incluir chats archivados",
+                        "type": "text/plain"
+                      },
+                      "key": "archived",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"chats\": [\n      {\n        \"first_name\": \"consectetur fugiat qui\",\n        \"id\": -84821417,\n        \"is_archived\": true,\n        \"is_muted\": true,\n        \"is_pinned\": false,\n        \"last_message\": \"reprehenderit\",\n        \"last_message_at\": \"do dolor sunt\",\n        \"last_message_id\": -85585625,\n        \"last_name\": \"ut incididunt\",\n        \"photo\": \"aliquip incididunt\",\n        \"title\": \"mollit et\",\n        \"type\": \"supergroup\",\n        \"unread_count\": -7137592,\n        \"username\": \"incididunt sit sint\"\n      },\n      {\n        \"first_name\": \"dolor sint veniam\",\n        \"id\": 2694469,\n        \"is_archived\": true,\n        \"is_muted\": false,\n        \"is_pinned\": true,\n        \"last_message\": \"aute nostrud\",\n        \"last_message_at\": \"reprehenderit elit veniam\",\n        \"last_message_id\": 96089714,\n        \"last_name\": \"est\",\n        \"photo\": \"laboris id\",\n        \"title\": \"eu elit velit\",\n        \"type\": \"channel\",\n        \"unread_count\": 61360356,\n        \"username\": \"qui eu anim incididunt\"\n      }\n    ],\n    \"has_more\": true,\n    \"total_count\": -95313531\n  },\n  \"error\": {\n    \"code\": \"do aliqua consectetur ut\",\n    \"details\": {},\n    \"message\": \"ea exercitation id qui\"\n  },\n  \"meta\": {\n    \"page\": 75570115,\n    \"per_page\": -76308120,\n    \"total\": 45761719,\n    \"total_pages\": 21251419\n  },\n  \"success\": false\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0cbe2412-0d32-42e7-8812-f04ef7ee8019",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id/chats - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e4995954-8989-469e-aedd-0f59631431c0",
+          "name": "Obtener información de chat",
+          "request": {
+            "name": "Obtener información de chat",
+            "description": {
+              "content": "Obtiene información detallada de un chat específico",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "chats",
+                ":chatId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Chat ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "-94549074",
+                  "key": "chatId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "25ddf1b0-78fc-4319-b850-29734678c3b3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "chats",
+                    ":chatId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"first_name\": \"incididunt \",\n    \"id\": 599728,\n    \"is_archived\": true,\n    \"is_muted\": true,\n    \"is_pinned\": false,\n    \"last_message\": \"ad est\",\n    \"last_message_at\": \"id in Excepteur n\",\n    \"last_message_id\": 40302414,\n    \"last_name\": \"magna ve\",\n    \"photo\": \"culpa cillum nostrud non\",\n    \"title\": \"ullamco minim labore\",\n    \"type\": \"group\",\n    \"unread_count\": 35895200,\n    \"username\": \"consectetur \"\n  },\n  \"error\": {\n    \"code\": \"consectetur adipisicing dolor \",\n    \"details\": {},\n    \"message\": \"fugiat dolor\"\n  },\n  \"meta\": {\n    \"page\": -13655321,\n    \"per_page\": 88941455,\n    \"total\": 29065535,\n    \"total_pages\": 16364361\n  },\n  \"success\": false\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6b5871be-70a4-41b1-a574-8b4055bd7b69",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id/chats/:chatId - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "beebf724-fc93-4f4b-80bc-da8404cb3854",
+          "name": "Obtener historial de mensajes",
+          "request": {
+            "name": "Obtener historial de mensajes",
+            "description": {
+              "content": "Obtiene el historial de mensajes de un chat",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "chats",
+                ":chatId",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Límite de mensajes (default 50, max 100)",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "-94549074"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "ID del mensaje desde donde empezar",
+                    "type": "text/plain"
+                  },
+                  "key": "offset_id",
+                  "value": "-94549074"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Timestamp unix desde donde empezar",
+                    "type": "text/plain"
+                  },
+                  "key": "offset_date",
+                  "value": "-94549074"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Chat ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "-94549074",
+                  "key": "chatId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "a5fe50d6-fb25-4e93-bfb9-5d4f9de7b035",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "chats",
+                    ":chatId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Límite de mensajes (default 50, max 100)",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "-94549074"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "ID del mensaje desde donde empezar",
+                        "type": "text/plain"
+                      },
+                      "key": "offset_id",
+                      "value": "-94549074"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Timestamp unix desde donde empezar",
+                        "type": "text/plain"
+                      },
+                      "key": "offset_date",
+                      "value": "-94549074"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"has_more\": true,\n    \"messages\": [\n      {\n        \"chat_id\": 52017749,\n        \"date\": \"ipsum est exercitation\",\n        \"forward_from\": \"dolore nisi incididunt\",\n        \"from_id\": 11569266,\n        \"from_name\": \"cupidatat id in\",\n        \"id\": -28268920,\n        \"is_outgoing\": false,\n        \"is_read\": false,\n        \"media_type\": \"aliquip\",\n        \"media_url\": \"laborum nostrud deserunt\",\n        \"reply_to_id\": 22275180,\n        \"text\": \"\"\n      },\n      {\n        \"chat_id\": 64040601,\n        \"date\": \"consectetur aute\",\n        \"forward_from\": \"i\",\n        \"from_id\": 51111221,\n        \"from_name\": \"deserunt non\",\n        \"id\": -24881443,\n        \"is_outgoing\": true,\n        \"is_read\": false,\n        \"media_type\": \"ullamco cillum sint aute labore\",\n        \"media_url\": \"labore id quis\",\n        \"reply_to_id\": -68257880,\n        \"text\": \"culpa Ut Duis pariatur\"\n      }\n    ],\n    \"total_count\": 65377107\n  },\n  \"error\": {\n    \"code\": \"ipsum irure cill\",\n    \"details\": {},\n    \"message\": \"consequat Lorem aliqua\"\n  },\n  \"meta\": {\n    \"page\": 58165819,\n    \"per_page\": 66668680,\n    \"total\": 51698128,\n    \"total_pages\": -5631496\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3b528854-65df-418f-9641-e49dac31b09e",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id/chats/:chatId/history - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "a9f569dd-39c0-4347-af9a-16576ed846f6",
+      "name": "Contacts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44930df2-86c0-4517-a967-7c894531ab01",
+          "name": "Listar contactos",
+          "request": {
+            "name": "Listar contactos",
+            "description": {
+              "content": "Obtiene la lista de contactos de Telegram",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {},
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "28ad6c91-e079-4ec2-a754-832c770e0eb3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"contacts\": [\n      {\n        \"first_name\": \"pariatur laborum ad non\",\n        \"id\": 43605410,\n        \"is_blocked\": false,\n        \"is_mutual\": true,\n        \"last_name\": \"et Excepteur ut\",\n        \"last_seen_at\": \"aute exercitation irure\",\n        \"phone\": \"do deserunt nisi id\",\n        \"photo\": \"nulla adipisicing sunt\",\n        \"status\": \"fug\",\n        \"username\": \"cillum c\"\n      },\n      {\n        \"first_name\": \"dolore\",\n        \"id\": -91292764,\n        \"is_blocked\": false,\n        \"is_mutual\": true,\n        \"last_name\": \"dolore irure nostrud\",\n        \"last_seen_at\": \"dolor minim nulla anim\",\n        \"phone\": \"pariatur magna sunt\",\n        \"photo\": \"nulla ex id Ut\",\n        \"status\": \"pariatur Lorem proident\",\n        \"username\": \"velit dolor\"\n      }\n    ],\n    \"total_count\": -8282144\n  },\n  \"error\": {\n    \"code\": \"eu sit ex culpa enim\",\n    \"details\": {},\n    \"message\": \"ex Ut\"\n  },\n  \"meta\": {\n    \"page\": -14177944,\n    \"per_page\": 11199361,\n    \"total\": 61946363,\n    \"total_pages\": -31193917\n  },\n  \"success\": false\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a7af2308-1877-4a07-9d86-815ccf8f3c2c",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/sessions/:id/contacts - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd3113d1-c363-47e9-bae8-fbf552134117",
+          "name": "Resolver username o teléfono",
+          "request": {
+            "name": "Resolver username o teléfono",
+            "description": {
+              "content": "Resuelve un @username o número de teléfono a un peer de Telegram",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":id",
+                "resolve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Session ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "Ut amet dolore",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+573001234567\",\n  \"username\": \"@durov\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "type": "any",
+                  "value": "Authorization",
+                  "key": "key"
+                },
+                {
+                  "type": "any",
+                  "value": "{{apiKey}}",
+                  "key": "value"
+                },
+                {
+                  "type": "any",
+                  "value": "header",
+                  "key": "in"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "ca3baa08-1ca3-477a-9a95-2efdf41b2523",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":id",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"+573001234567\",\n  \"username\": \"@durov\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"first_name\": \"non consequat quis\",\n    \"id\": -30149082,\n    \"is_bot\": true,\n    \"is_verified\": false,\n    \"last_name\": \"officia mollit repr\",\n    \"phone\": \"ipsum officia\",\n    \"title\": \"aliqua occaecat\",\n    \"type\": \"supergroup\",\n    \"username\": \"dolore ullamco\"\n  },\n  \"error\": {\n    \"code\": \"velit\",\n    \"details\": {},\n    \"message\": \"a\"\n  },\n  \"meta\": {\n    \"page\": -92029526,\n    \"per_page\": 80401310,\n    \"total\": -19602398,\n    \"total_pages\": -27155191\n  },\n  \"success\": true\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b0721ed-16de-49cc-bbbf-6cd454e47608",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/sessions/:id/resolve - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "any",
+      "value": "//localhost:7789/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a665b5f7-fb6e-4249-a509-b587c63f22b3",
+    "name": "Telegram API",
+    "version": {
+      "raw": "0.1.0",
+      "major": 0,
+      "minor": 1,
+      "patch": 0,
+      "prerelease": [],
+      "build": [],
+      "string": "0.1.0"
+    },
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API REST para gestionar múltiples sesiones de Telegram via MTProto",
+      "type": "text/plain"
+    }
+  }
+}

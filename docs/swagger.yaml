@@ -1247,6 +1247,36 @@ paths:
       summary: Enviar video
       tags:
       - Messages
+  /sessions/{id}/qr/regenerate:
+    post:
+      description: Genera un nuevo código QR para una sesión existente que falló o
+        expiró
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      security:
+      - BearerAuth: []
+      summary: Regenerar QR de sesión
+      tags:
+      - Sessions
   /sessions/{id}/resolve:
     post:
       consumes:

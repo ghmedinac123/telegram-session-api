@@ -18,7 +18,6 @@ import (
 	"telegram-api/pkg/logger"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -106,7 +105,7 @@ func main() {
 		AppName:               "Telegram API v" + Version,
 	})
 	app.Use(recover.New())
-	app.Use(cors.New())
+	app.Use(middleware.CORS())
 	app.Use(middleware.RequestLogger())
 
 	// ==================== DOCUMENTATION ====================

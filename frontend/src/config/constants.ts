@@ -5,7 +5,7 @@ export const REFRESH_TOKEN_KEY = 'refresh_token'
 export const USER_KEY = 'user_data'
 
 // URL base del frontend para archivos públicos
-export const FRONTEND_URL = 'http://frontend.telegram-api.fututel.com'
+export const FRONTEND_URL = 'https://frontend.telegram-api.fututel.com'
 
 // URL base para uploads
 export const UPLOADS_BASE_URL = `${FRONTEND_URL}/uploads`

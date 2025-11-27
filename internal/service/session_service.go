@@ -371,3 +371,57 @@ func (s *SessionService) DeleteSession(ctx context.Context, sessionID uuid.UUID)
 
 	return s.sessionRepo.Delete(ctx, sessionID)
 }
+
+
+// RegenerateQR genera un nuevo QR para una sesión existente
+func (s *SessionService) RegenerateQR(ctx context.Context, sessionID uuid.UUID) (string, error) {
+	session, err := s.sessionRepo.GetByID(ctx, sessionID)
+	if err != nil {
+		return "", domain.ErrSessionNotFound
+	}
+
+	// Si ya está autenticada, no necesita regenerar
+	if session.IsActive && session.AuthState == domain.SessionAuthenticated {
+		return "", domain.NewAppError(nil, "Sesión ya está autenticada", 400)
+	}
+
+	// Descifrar api_hash
+	apiHashBytes, err := s.tgManager.Decrypt(session.ApiHashEncrypted)
+	if err != nil {
+		logger.Error().Err(err).Str("session_id", sessionID.String()).Msg("Error descifrando api_hash")
+		return "", domain.ErrInternal
+	}
+
+	// Resetear estado a pending
+	session.AuthState = domain.SessionPending
+	session.IsActive = false
+	if err := s.sessionRepo.Update(ctx, session); err != nil {
+		return "", domain.ErrDatabase
+	}
+
+	// Iniciar nuevo QR auth
+	qrImageB64, resultChan, err := s.tgManager.StartQRAuth(
+		context.Background(),
+		session.ApiID,
+		string(apiHashBytes),
+		session.SessionName,
+		maxQRAttempts,
+		qrTimeout,
+	)
+	if err != nil {
+		logger.Error().Err(err).Str("session_id", sessionID.String()).Msg("Error regenerando QR")
+		session.AuthState = domain.SessionFailed
+		_ = s.sessionRepo.Update(ctx, session)
+		return "", domain.NewAppError(err, "Error generando QR", 502)
+	}
+
+	// Escuchar resultado en background
+	go s.handleQRResult(session.ID, resultChan)
+
+	logger.Info().
+		Str("session_id", sessionID.String()).
+		Str("session_name", session.SessionName).
+		Msg("🔄 QR regenerado, esperando escaneo...")
+
+	return qrImageB64, nil
+}

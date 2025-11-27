@@ -12,10 +12,14 @@ COPY package.json pnpm-lock.yaml ./
 # Instalar dependencias
 RUN pnpm install --frozen-lockfile
 
-# Copiar código fuente
+# Copiar codigo fuente
 COPY . .
 
-# Build de producción
+# Variable de entorno para la API (se pasa en build time)
+ARG VITE_API_URL=https://backend.telegram-api.fututel.com/api/v1
+ENV VITE_API_URL=$VITE_API_URL
+
+# Build de produccion
 RUN pnpm build
 
 # ==================== STAGE 2: Production ====================
@@ -24,7 +28,7 @@ FROM nginx:alpine
 # Copiar archivos compilados
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiar configuración personalizada de nginx
+# Copiar configuracion personalizada de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Exponer puerto

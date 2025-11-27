@@ -23,6 +23,7 @@ func (h *SessionHandler) RegisterRoutes(r fiber.Router) {
 	sessions := r.Group("/sessions")
 	sessions.Post("/", h.Create)
 	sessions.Post("/:id/verify", h.VerifyCode)
+	sessions.Post("/:id/qr/regenerate", h.RegenerateQR) // ✅ NUEVA RUTA
 	sessions.Get("/", h.List)
 	sessions.Get("/:id", h.Get)
 	sessions.Delete("/:id", h.Delete)
@@ -241,4 +242,33 @@ func handleSessionError(c *fiber.Ctx, err error) error {
 		Msg("❌ Error NO MANEJADO en sesión")
 	
 	return c.Status(500).JSON(NewErrorResponse("INTERNAL", "Error interno"))
+}
+
+// RegenerateQR godoc
+// @Summary Regenerar QR de sesión
+// @Description Genera un nuevo código QR para una sesión existente que falló o expiró
+// @Tags Sessions
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Session ID"
+// @Success 200 {object} handler.Response
+// @Failure 400 {object} handler.Response
+// @Failure 404 {object} handler.Response
+// @Router /sessions/{id}/qr/regenerate [post]
+func (h *SessionHandler) RegenerateQR(c *fiber.Ctx) error {
+	sessionID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(400).JSON(NewErrorResponse("INVALID_ID", "ID inválido"))
+	}
+
+	qrImageB64, err := h.service.RegenerateQR(c.Context(), sessionID)
+	if err != nil {
+		return handleSessionError(c, err)
+	}
+
+	return c.JSON(NewSuccessResponse(fiber.Map{
+		"session_id":      sessionID,
+		"qr_image_base64": qrImageB64,
+		"message":         "QR regenerado. El sistema escucha automáticamente (3 intentos, 2 min c/u).",
+	}))
 }

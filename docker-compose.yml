@@ -1,7 +1,7 @@
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17
     container_name: tg_postgres
     restart: always
     environment:
@@ -74,7 +74,7 @@ services:
     container_name: telegram_frontend
     restart: unless-stopped
     ports:
-      - "3000:80"
+      - "7790:80"
     depends_on:
       api:
         condition: service_healthy

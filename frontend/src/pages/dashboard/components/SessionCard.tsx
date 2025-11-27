@@ -1,4 +1,4 @@
-import { Smartphone, CheckCircle, Clock, XCircle, Trash2, Send } from 'lucide-react'
+import { Smartphone, CheckCircle, Clock, XCircle, Trash2, Send, MessageCircle, Users } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { TelegramSession } from '@/types'
 import { Card, Button } from '@/components/common'
@@ -103,14 +103,44 @@ export const SessionCard = ({ session }: SessionCardProps) => {
           </div>
         </div>
 
-        <Button
-          variant="danger"
-          onClick={handleDelete}
-          isLoading={deleteSession.isPending}
-          className="opacity-0 group-hover:opacity-100 transition-opacity"
-        >
-          <Trash2 className="w-4 h-4" />
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          {session.is_active && (
+            <>
+              <Button
+                variant="ghost"
+                onClick={() => navigate(`/chats/${session.id}`)}
+                className="flex items-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Chats
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => navigate(`/contacts/${session.id}`)}
+                className="flex items-center gap-2"
+              >
+                <Users className="w-4 h-4" />
+                Contactos
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => navigate(`/messages/${session.id}`)}
+                className="flex items-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+                Mensajes
+              </Button>
+            </>
+          )}
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            isLoading={deleteSession.isPending}
+            className="opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </Card>
   )

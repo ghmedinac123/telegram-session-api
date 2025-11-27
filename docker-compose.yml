@@ -1,85 +1,89 @@
+
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:latest
     container_name: tg_postgres
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: telegram_db
+    ports:
+      - "5649:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - internal
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U admin -d telegram_db"]
       interval: 5s
       timeout: 5s
       retries: 5
-    # ⚠️ SIN PORTS = No accesible desde internet
 
   redis:
     image: redis:7-alpine
     container_name: tg_redis
     restart: always
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    command: redis-server --appendonly yes
+    ports:
+      - "7954:6379"
     volumes:
       - redis_data:/data
-    networks:
-      - internal
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
-    # ⚠️ SIN PORTS = No accesible desde internet
 
   api:
-    image: ghmedinac/telegram-api:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: ${VERSION:-0.1.0}
+    image: ghmedinac/telegram-api:latest
     container_name: telegram_api_app
     restart: unless-stopped
     ports:
       - "7789:8080"
-    env_file:
-      - .env.production
+    environment:
+      - API_PORT=8080
+      - API_ENV=production
+      - LOG_LEVEL=info
+      - DB_URL=postgres://admin:password123@tg_postgres:5432/telegram_db?sslmode=disable
+      - REDIS_ADDR=tg_redis:6379
+      - REDIS_PASSWORD=
+      - JWT_SECRET=${JWT_SECRET:-tu_jwt_secret_32_caracteres_min!}
+      - JWT_EXPIRY=24h
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:-clave_32_caracteres_exactos!!}
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-    networks:
-      - internal
-      - external
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
   frontend:
-    image: ghmedinac/telegram-frontend:${VERSION:-latest}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: ghmedinac/telegram-frontend:latest
     container_name: telegram_frontend
     restart: unless-stopped
     ports:
-      - "${FRONTEND_PORT:-3000}:80"
+      - "3000:80"
     depends_on:
       api:
         condition: service_healthy
-    networks:
-      - external
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
       interval: 30s
       timeout: 3s
       retries: 3
-
-networks:
-  internal:
-    driver: bridge
-    internal: true  # ⚠️ Red interna, sin acceso a internet
-  external:
-    driver: bridge
+      start_period: 5s
 
 volumes:
   postgres_data:

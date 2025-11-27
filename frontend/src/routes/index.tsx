@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { DashboardPage } from '@/pages/dashboard/DashboardPage'
 import { MessagesPage } from '@/pages/messages/MessagesPage'
+import { ChatsPage } from '@/pages/chats/ChatsPage'
+import { ContactsPage } from '@/pages/contacts/ContactsPage'
 import { ProtectedRoute } from './ProtectedRoute'
 import { useAuth } from '@/contexts'
 
@@ -40,6 +42,22 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <MessagesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chats/:sessionId"
+          element={
+            <ProtectedRoute>
+              <ChatsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/contacts/:sessionId"
+          element={
+            <ProtectedRoute>
+              <ContactsPage />
             </ProtectedRoute>
           }
         />

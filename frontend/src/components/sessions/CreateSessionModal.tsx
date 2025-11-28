@@ -91,21 +91,23 @@ export const CreateSessionModal = ({ isOpen, onClose, onSuccess }: CreateSession
       title="Nueva Sesión de Telegram"
       size="lg"
     >
-      <div className="p-6">
-        <Tabs
-          tabs={[
-            { id: 'form', label: 'Crear Sesión', icon: <Smartphone className="w-4 h-4" /> },
-            { id: 'guide', label: 'Obtener Credenciales', icon: <HelpCircle className="w-4 h-4" /> },
-          ]}
-          activeTab={activeTab}
-          onChange={setActiveTab}
-        />
+      <div className="p-4 sm:p-6">
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <Tabs
+            tabs={[
+              { id: 'form', label: 'Crear Sesión', icon: <Smartphone className="w-4 h-4" /> },
+              { id: 'guide', label: 'Credenciales', icon: <HelpCircle className="w-4 h-4" /> },
+            ]}
+            activeTab={activeTab}
+            onChange={setActiveTab}
+          />
+        </div>
 
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6">
           {activeTab === 'guide' ? (
             <TelegramGuide />
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {error && (
                 <Alert variant="error">
                   {error}
@@ -207,7 +209,7 @@ export const CreateSessionModal = ({ isOpen, onClose, onSuccess }: CreateSession
                 </Alert>
               )}
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
                 <Button
                   type="button"
                   variant="secondary"
@@ -223,7 +225,7 @@ export const CreateSessionModal = ({ isOpen, onClose, onSuccess }: CreateSession
                   isLoading={createSession.isPending}
                   fullWidth
                 >
-                  {authMethod === 'sms' ? 'Enviar Código SMS' : 'Generar QR'}
+                  {authMethod === 'sms' ? 'Enviar Código' : 'Generar QR'}
                 </Button>
               </div>
             </form>

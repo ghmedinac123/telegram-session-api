@@ -36,17 +36,17 @@ type Chat struct {
 // ==================== CONTACT ====================
 
 type Contact struct {
-	ID          int64  `json:"id"`
-	Phone       string `json:"phone,omitempty"`
-	FirstName   string `json:"first_name"`
-	LastName    string `json:"last_name,omitempty"`
-	Username    string `json:"username,omitempty"`
-	Photo       string `json:"photo,omitempty"`
-	IsMutual    bool   `json:"is_mutual"`
-	IsBlocked   bool   `json:"is_blocked"`
-	AccessHash  int64  `json:"-"` // No exponer
-	Status      string `json:"status,omitempty"` // online, offline, recently, etc
-	LastSeenAt  *time.Time `json:"last_seen_at,omitempty"`
+	ID         int64      `json:"id"`
+	Phone      string     `json:"phone,omitempty"`
+	FirstName  string     `json:"first_name"`
+	LastName   string     `json:"last_name,omitempty"`
+	Username   string     `json:"username,omitempty"`
+	Photo      string     `json:"photo,omitempty"`
+	IsMutual   bool       `json:"is_mutual"`
+	IsBlocked  bool       `json:"is_blocked"`
+	AccessHash int64      `json:"-"`
+	Status     string     `json:"status,omitempty"`
+	LastSeenAt *time.Time `json:"last_seen_at,omitempty"`
 }
 
 // ==================== CHAT MESSAGE ====================
@@ -61,7 +61,7 @@ type ChatMessage struct {
 	IsOutgoing  bool      `json:"is_outgoing"`
 	IsRead      bool      `json:"is_read"`
 	ReplyToID   int       `json:"reply_to_id,omitempty"`
-	MediaType   string    `json:"media_type,omitempty"` // photo, video, audio, document, sticker
+	MediaType   string    `json:"media_type,omitempty"`
 	MediaURL    string    `json:"media_url,omitempty"`
 	ForwardFrom string    `json:"forward_from,omitempty"`
 }
@@ -84,15 +84,23 @@ type ResolvedPeer struct {
 // ==================== REQUEST DTOs ====================
 
 type GetChatsRequest struct {
-	Limit    int  `query:"limit"`     // default 50, max 100
-	Offset   int  `query:"offset"`    // para paginación
-	Archived bool `query:"archived"`  // incluir archivados
+	Limit    int  `query:"limit"`
+	Offset   int  `query:"offset"`
+	Archived bool `query:"archived"`
+	Refresh  bool `query:"refresh"` // Forzar refresh de cache
 }
 
 type GetHistoryRequest struct {
-	Limit      int `query:"limit"`       // default 50, max 100
-	OffsetID   int `query:"offset_id"`   // mensaje desde donde empezar
-	OffsetDate int `query:"offset_date"` // timestamp unix
+	Limit      int `query:"limit"`
+	OffsetID   int `query:"offset_id"`
+	OffsetDate int `query:"offset_date"`
+}
+
+// GetContactsRequest para paginación de contactos
+type GetContactsRequest struct {
+	Limit   int  `query:"limit"`   // default 50, max 200
+	Offset  int  `query:"offset"`  // para paginación
+	Refresh bool `query:"refresh"` // Forzar refresh de cache
 }
 
 type ResolveRequest struct {
@@ -106,11 +114,14 @@ type ChatsResponse struct {
 	Chats      []Chat `json:"chats"`
 	TotalCount int    `json:"total_count"`
 	HasMore    bool   `json:"has_more"`
+	FromCache  bool   `json:"from_cache,omitempty"` // Indica si vino de cache
 }
 
 type ContactsResponse struct {
 	Contacts   []Contact `json:"contacts"`
 	TotalCount int       `json:"total_count"`
+	HasMore    bool      `json:"has_more"`    // Para paginación
+	FromCache  bool      `json:"from_cache,omitempty"`
 }
 
 type HistoryResponse struct {

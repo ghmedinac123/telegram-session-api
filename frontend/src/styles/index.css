@@ -117,6 +117,10 @@
     animation: slideIn 0.3s ease-out;
   }
 
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+
   .animate-slide-up {
     animation: slideUp 0.3s ease-out;
   }
@@ -131,6 +135,18 @@
 
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-shrink-width {
+    animation: shrinkWidth linear forwards;
+  }
+
+  .animate-accordion-down {
+    animation: accordionDown 0.2s ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordionUp 0.2s ease-out;
   }
 
   /* Gradient text */
@@ -210,6 +226,48 @@
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shrinkWidth {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes accordionDown {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--accordion-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordionUp {
+  from {
+    height: var(--accordion-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
   }
 }
 

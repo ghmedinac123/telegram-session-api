@@ -34,4 +34,5 @@ type CacheRepository interface {
 	SetJSON(ctx context.Context, key string, value interface{}, ttlSeconds int) error
 	GetJSON(ctx context.Context, key string, dest interface{}) error
 	IncrementRateLimit(ctx context.Context, key string, windowSeconds int) (int64, error)
+	ScanKeys(ctx context.Context, pattern string, count int64) ([]string, error) // ✅ Nuevo
 }

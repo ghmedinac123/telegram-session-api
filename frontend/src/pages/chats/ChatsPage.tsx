@@ -68,14 +68,14 @@ export const ChatsPage = () => {
   return (
     <Layout>
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => navigate('/dashboard')}>
+        <div className="mb-4 sm:mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <Button variant="ghost" onClick={() => navigate('/dashboard')} className="flex-shrink-0">
               <ArrowLeft className="w-4 h-4" />
             </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Chats</h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white">Chats</h1>
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 truncate">
                 {session.phone_number || session.session_name}
               </p>
             </div>

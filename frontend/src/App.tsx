@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider, ThemeProvider, ToastProvider } from '@/contexts'
+import { AuthProvider, ThemeProvider, ToastProvider, ConfirmProvider } from '@/contexts'
 import { AppRoutes } from '@/routes'
 
 const queryClient = new QueryClient({
@@ -17,9 +17,11 @@ export const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <ToastProvider>
-          <AuthProvider>
-            <AppRoutes />
-          </AuthProvider>
+          <ConfirmProvider>
+            <AuthProvider>
+              <AppRoutes />
+            </AuthProvider>
+          </ConfirmProvider>
         </ToastProvider>
       </ThemeProvider>
     </QueryClientProvider>

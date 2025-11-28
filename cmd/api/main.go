@@ -26,7 +26,7 @@ import (
 )
 
 // Version se inyecta en build time con -ldflags
-var Version = "0.1.0"
+var Version = "0.1.1"
 
 // @title Telegram API
 // @version 0.1.0
@@ -97,7 +97,7 @@ func main() {
 	authService := service.NewAuthService(userRepo, tokenRepo, cacheRepo, cfg)
 	sessionService := service.NewSessionService(sessionRepo, userRepo, tgManager, cacheRepo, cfg)
 	messageService := service.NewMessageService(sessionRepo, cacheRepo, tgManager)
-	chatService := service.NewChatService(sessionRepo, cacheRepo, tgManager)
+	chatService := service.NewChatService(sessionRepo, cacheRepo, tgManager, cfg)
 
 	// ==================== FIBER APP ====================
 	app := fiber.New(fiber.Config{

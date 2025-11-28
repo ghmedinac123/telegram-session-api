@@ -74,34 +74,34 @@ export const DashboardPage = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card className="flex items-center gap-4">
-            <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl">
-              <Smartphone className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <Card className="flex items-center gap-3 sm:gap-4">
+            <div className="p-2.5 sm:p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex-shrink-0">
+              <Smartphone className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
             </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Sesiones</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalSessions}</p>
-            </div>
-          </Card>
-
-          <Card className="flex items-center gap-4">
-            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
-              <Activity className="w-6 h-6 text-green-600 dark:text-green-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Activas</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeSessions}</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Total Sesiones</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{totalSessions}</p>
             </div>
           </Card>
 
-          <Card className="flex items-center gap-4">
-            <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
-              <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+          <Card className="flex items-center gap-3 sm:gap-4">
+            <div className="p-2.5 sm:p-3 bg-green-100 dark:bg-green-900/30 rounded-xl flex-shrink-0">
+              <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" />
             </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Pendientes</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{pendingSessions}</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Activas</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{activeSessions}</p>
+            </div>
+          </Card>
+
+          <Card className="flex items-center gap-3 sm:gap-4 sm:col-span-2 lg:col-span-1">
+            <div className="p-2.5 sm:p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex-shrink-0">
+              <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 dark:text-yellow-400" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Pendientes</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{pendingSessions}</p>
             </div>
           </Card>
         </div>

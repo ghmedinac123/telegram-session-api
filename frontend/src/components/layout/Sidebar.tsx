@@ -8,13 +8,16 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Send,
   User,
   LogOut,
   Zap,
+  X,
 } from 'lucide-react'
 import { useAuth } from '@/contexts'
 import { useSessions } from '@/hooks'
+import { useSidebar } from './Layout'
 
 interface NavItemProps {
   to: string
@@ -22,12 +25,14 @@ interface NavItemProps {
   label: string
   collapsed: boolean
   badge?: number
+  onClick?: () => void
 }
 
-const NavItem = ({ to, icon, label, collapsed, badge }: NavItemProps) => {
+const NavItem = ({ to, icon, label, collapsed, badge, onClick }: NavItemProps) => {
   return (
     <NavLink
       to={to}
+      onClick={onClick}
       className={({ isActive }) => `
         flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
         ${isActive
@@ -60,9 +65,12 @@ interface SessionNavItemProps {
     is_active: boolean
   }
   collapsed: boolean
+  onNavigate?: () => void
+  isExpanded: boolean
+  onToggle: () => void
 }
 
-const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
+const SessionNavItem = ({ session, collapsed, onNavigate, isExpanded, onToggle }: SessionNavItemProps) => {
   const location = useLocation()
   const isActive = location.pathname.includes(session.id)
 
@@ -70,6 +78,7 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
     return (
       <NavLink
         to={`/messages/${session.id}`}
+        onClick={onNavigate}
         className={`
           flex items-center justify-center p-2 rounded-lg transition-all duration-200
           ${isActive
@@ -86,21 +95,39 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
 
   return (
     <div className="space-y-1">
-      <div className="flex items-center gap-2 px-3 py-2">
+      {/* Session header - clickable to expand/collapse */}
+      <button
+        onClick={onToggle}
+        className={`
+          w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200
+          ${isActive
+            ? 'bg-primary-50 dark:bg-primary-900/20'
+            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+          }
+        `}
+      >
         <div className={`w-2 h-2 rounded-full flex-shrink-0 ${session.is_active ? 'bg-green-500' : 'bg-gray-400'}`} />
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate flex-1">
+        <span className={`text-sm font-medium truncate flex-1 text-left ${isActive ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300'}`}>
           {session.session_name}
         </span>
-      </div>
-      {session.is_active && (
-        <div className="pl-5 space-y-1">
+        {session.is_active && (
+          <ChevronDown
+            className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+          />
+        )}
+      </button>
+
+      {/* Expandable menu items */}
+      {session.is_active && isExpanded && (
+        <div className="pl-5 space-y-0.5 overflow-hidden animate-accordion-down">
           <NavLink
             to={`/messages/${session.id}`}
+            onClick={onNavigate}
             className={({ isActive }) => `
               flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors
               ${isActive
                 ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
               }
             `}
           >
@@ -109,11 +136,12 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
           </NavLink>
           <NavLink
             to={`/chats/${session.id}`}
+            onClick={onNavigate}
             className={({ isActive }) => `
               flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors
               ${isActive
                 ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
               }
             `}
           >
@@ -122,11 +150,12 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
           </NavLink>
           <NavLink
             to={`/contacts/${session.id}`}
+            onClick={onNavigate}
             className={({ isActive }) => `
               flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors
               ${isActive
                 ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
               }
             `}
           >
@@ -135,11 +164,12 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
           </NavLink>
           <NavLink
             to={`/webhooks/${session.id}`}
+            onClick={onNavigate}
             className={({ isActive }) => `
               flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors
               ${isActive
                 ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
               }
             `}
           >
@@ -154,10 +184,41 @@ const SessionNavItem = ({ session, collapsed }: SessionNavItemProps) => {
 
 export const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const [expandedSessions, setExpandedSessions] = useState<Set<string>>(new Set())
   const { user, logout } = useAuth()
   const { data: sessions } = useSessions()
+  const { isOpen, setIsOpen } = useSidebar()
+  const location = useLocation()
 
   const activeSessions = sessions?.filter(s => s.is_active).length || 0
+
+  // Close sidebar on mobile when navigating
+  const handleMobileNavigate = () => {
+    if (window.innerWidth < 1024) {
+      setIsOpen(false)
+    }
+  }
+
+  // Toggle session expansion
+  const toggleSession = (sessionId: string) => {
+    setExpandedSessions(prev => {
+      const next = new Set(prev)
+      if (next.has(sessionId)) {
+        next.delete(sessionId)
+      } else {
+        next.add(sessionId)
+      }
+      return next
+    })
+  }
+
+  // Auto-expand session if currently viewing it
+  const isSessionExpanded = (sessionId: string) => {
+    if (location.pathname.includes(sessionId)) {
+      return true
+    }
+    return expandedSessions.has(sessionId)
+  }
 
   return (
     <aside
@@ -165,6 +226,8 @@ export const Sidebar = () => {
         fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800
         flex flex-col transition-all duration-300 z-40
         ${collapsed ? 'w-[72px]' : 'w-64'}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:translate-x-0
       `}
     >
       {/* Logo */}
@@ -185,6 +248,13 @@ export const Sidebar = () => {
             <Zap className="w-5 h-5 text-white" />
           </div>
         )}
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setIsOpen(false)}
+          className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          <X className="w-5 h-5 text-gray-500" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -195,6 +265,7 @@ export const Sidebar = () => {
           label="Dashboard"
           collapsed={collapsed}
           badge={activeSessions}
+          onClick={handleMobileNavigate}
         />
 
         {/* Sessions Section */}
@@ -202,12 +273,19 @@ export const Sidebar = () => {
           <div className="pt-4">
             {!collapsed && (
               <p className="px-3 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-600 uppercase tracking-wider">
-                Sesiones
+                Sesiones ({sessions.length})
               </p>
             )}
             <div className="space-y-1">
               {sessions.map((session) => (
-                <SessionNavItem key={session.id} session={session} collapsed={collapsed} />
+                <SessionNavItem
+                  key={session.id}
+                  session={session}
+                  collapsed={collapsed}
+                  onNavigate={handleMobileNavigate}
+                  isExpanded={isSessionExpanded(session.id)}
+                  onToggle={() => toggleSession(session.id)}
+                />
               ))}
             </div>
           </div>
@@ -221,12 +299,14 @@ export const Sidebar = () => {
           icon={<User className="w-5 h-5" />}
           label="Perfil"
           collapsed={collapsed}
+          onClick={handleMobileNavigate}
         />
         <NavItem
           to="/settings"
           icon={<Settings className="w-5 h-5" />}
           label="Configuracion"
           collapsed={collapsed}
+          onClick={handleMobileNavigate}
         />
 
         {/* User info */}
@@ -261,10 +341,10 @@ export const Sidebar = () => {
         </button>
       </div>
 
-      {/* Collapse toggle */}
+      {/* Collapse toggle - only visible on desktop */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-sm flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        className="hidden lg:flex absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-sm items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         {collapsed ? (
           <ChevronRight className="w-4 h-4 text-gray-500" />

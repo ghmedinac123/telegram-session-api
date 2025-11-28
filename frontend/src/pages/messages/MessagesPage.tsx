@@ -45,39 +45,41 @@ export const MessagesPage = () => {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
+      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+        <div className="flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => navigate('/dashboard')}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white truncate">
               Enviar Mensajes
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Sesión: {session.session_name} (@{session.telegram_username})
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 truncate">
+              {session.session_name} {session.telegram_username && `(@${session.telegram_username})`}
             </p>
           </div>
         </div>
 
-        <Card>
-          <Tabs
-            tabs={[
-              { id: 'text', label: 'Texto', icon: <Send className="w-4 h-4" /> },
-              { id: 'photo', label: 'Foto', icon: <Image className="w-4 h-4" /> },
-              { id: 'video', label: 'Video', icon: <Video className="w-4 h-4" /> },
-              { id: 'audio', label: 'Audio', icon: <Music className="w-4 h-4" /> },
-              { id: 'file', label: 'Archivo', icon: <FileText className="w-4 h-4" /> },
-              { id: 'bulk', label: 'Masivo', icon: <Users className="w-4 h-4" /> },
-            ]}
-            activeTab={activeTab}
-            onChange={setActiveTab}
-          />
+        <Card className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <Tabs
+              tabs={[
+                { id: 'text', label: 'Texto', icon: <Send className="w-4 h-4" /> },
+                { id: 'photo', label: 'Foto', icon: <Image className="w-4 h-4" /> },
+                { id: 'video', label: 'Video', icon: <Video className="w-4 h-4" /> },
+                { id: 'audio', label: 'Audio', icon: <Music className="w-4 h-4" /> },
+                { id: 'file', label: 'Archivo', icon: <FileText className="w-4 h-4" /> },
+                { id: 'bulk', label: 'Masivo', icon: <Users className="w-4 h-4" /> },
+              ]}
+              activeTab={activeTab}
+              onChange={setActiveTab}
+            />
+          </div>
 
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {activeTab === 'text' && <SendTextForm sessionId={sessionId!} />}
             {activeTab === 'photo' && <SendPhotoForm sessionId={sessionId!} />}
             {activeTab === 'video' && <SendVideoForm sessionId={sessionId!} />}

@@ -25,6 +25,9 @@ RUN pnpm build
 # ==================== STAGE 2: Production ====================
 FROM nginx:alpine
 
+# Instalar curl para healthcheck
+RUN apk add --no-cache curl
+
 # Copiar archivos compilados
 COPY --from=builder /app/dist /usr/share/nginx/html
 
@@ -36,7 +39,7 @@ EXPOSE 80
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+    CMD curl -f http://localhost/ || exit 1
 
 # Iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]

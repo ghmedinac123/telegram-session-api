@@ -1,11 +1,16 @@
-import { ReactNode, useState, createContext, useContext } from 'react'
+import { ReactNode, useState, createContext, useContext, useEffect } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 
 interface SidebarContextType {
+  // Mobile: open/close sidebar
   isOpen: boolean
   setIsOpen: (open: boolean) => void
   toggle: () => void
+  // Desktop & Mobile: collapse to icons only
+  isCollapsed: boolean
+  setIsCollapsed: (collapsed: boolean) => void
+  toggleCollapse: () => void
 }
 
 const SidebarContext = createContext<SidebarContextType | null>(null)
@@ -24,11 +29,26 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    // Restore from localStorage
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('sidebar-collapsed') === 'true'
+    }
+    return false
+  })
+
+  // Persist collapsed state
+  useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', String(sidebarCollapsed))
+  }, [sidebarCollapsed])
 
   const sidebarContextValue: SidebarContextType = {
     isOpen: sidebarOpen,
     setIsOpen: setSidebarOpen,
     toggle: () => setSidebarOpen(prev => !prev),
+    isCollapsed: sidebarCollapsed,
+    setIsCollapsed: setSidebarCollapsed,
+    toggleCollapse: () => setSidebarCollapsed(prev => !prev),
   }
 
   return (
@@ -42,7 +62,11 @@ export const Layout = ({ children }: LayoutProps) => {
             onClick={() => setSidebarOpen(false)}
           />
         )}
-        <div className="lg:ml-64 transition-all duration-300">
+        {/* Main content - margin adapts to sidebar collapsed state */}
+        <div className={`
+          transition-all duration-300
+          ${sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-64'}
+        `}>
           <Header />
           <main className="p-4 sm:p-6">
             {children}

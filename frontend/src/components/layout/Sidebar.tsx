@@ -14,6 +14,8 @@ import {
   LogOut,
   Zap,
   X,
+  PanelLeftClose,
+  PanelLeft,
 } from 'lucide-react'
 import { useAuth } from '@/contexts'
 import { useSessions } from '@/hooks'
@@ -183,11 +185,10 @@ const SessionNavItem = ({ session, collapsed, onNavigate, isExpanded, onToggle }
 }
 
 export const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false)
   const [expandedSessions, setExpandedSessions] = useState<Set<string>>(new Set())
   const { user, logout } = useAuth()
   const { data: sessions } = useSessions()
-  const { isOpen, setIsOpen } = useSidebar()
+  const { isOpen, setIsOpen, isCollapsed, toggleCollapse } = useSidebar()
   const location = useLocation()
 
   const activeSessions = sessions?.filter(s => s.is_active).length || 0
@@ -225,14 +226,14 @@ export const Sidebar = () => {
       className={`
         fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800
         flex flex-col transition-all duration-300 z-40
-        ${collapsed ? 'w-[72px]' : 'w-64'}
+        ${isCollapsed ? 'w-[72px]' : 'w-64'}
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0
       `}
     >
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-800">
-        {!collapsed && (
+        {!isCollapsed && (
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-600/20">
               <Zap className="w-5 h-5 text-white" />
@@ -243,18 +244,20 @@ export const Sidebar = () => {
             </div>
           </div>
         )}
-        {collapsed && (
+        {isCollapsed && (
           <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mx-auto">
             <Zap className="w-5 h-5 text-white" />
           </div>
         )}
-        {/* Close button for mobile */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
-          <X className="w-5 h-5 text-gray-500" />
-        </button>
+        {/* Close button for mobile - only when not collapsed */}
+        {!isCollapsed && (
+          <button
+            onClick={() => setIsOpen(false)}
+            className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -263,7 +266,7 @@ export const Sidebar = () => {
           to="/dashboard"
           icon={<LayoutDashboard className="w-5 h-5" />}
           label="Dashboard"
-          collapsed={collapsed}
+          collapsed={isCollapsed}
           badge={activeSessions}
           onClick={handleMobileNavigate}
         />
@@ -271,7 +274,7 @@ export const Sidebar = () => {
         {/* Sessions Section */}
         {sessions && sessions.length > 0 && (
           <div className="pt-4">
-            {!collapsed && (
+            {!isCollapsed && (
               <p className="px-3 mb-2 text-xs font-semibold text-gray-400 dark:text-gray-600 uppercase tracking-wider">
                 Sesiones ({sessions.length})
               </p>
@@ -281,7 +284,7 @@ export const Sidebar = () => {
                 <SessionNavItem
                   key={session.id}
                   session={session}
-                  collapsed={collapsed}
+                  collapsed={isCollapsed}
                   onNavigate={handleMobileNavigate}
                   isExpanded={isSessionExpanded(session.id)}
                   onToggle={() => toggleSession(session.id)}
@@ -294,23 +297,43 @@ export const Sidebar = () => {
 
       {/* Bottom section */}
       <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-1">
+        {/* Collapse toggle button - visible on both mobile and desktop */}
+        <button
+          onClick={toggleCollapse}
+          className={`
+            w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors
+            text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800
+            ${isCollapsed ? 'justify-center' : ''}
+          `}
+          title={isCollapsed ? 'Expandir menú' : 'Colapsar menú'}
+        >
+          {isCollapsed ? (
+            <PanelLeft className="w-5 h-5" />
+          ) : (
+            <>
+              <PanelLeftClose className="w-5 h-5" />
+              <span className="font-medium">Colapsar</span>
+            </>
+          )}
+        </button>
+
         <NavItem
           to="/profile"
           icon={<User className="w-5 h-5" />}
           label="Perfil"
-          collapsed={collapsed}
+          collapsed={isCollapsed}
           onClick={handleMobileNavigate}
         />
         <NavItem
           to="/settings"
           icon={<Settings className="w-5 h-5" />}
           label="Configuracion"
-          collapsed={collapsed}
+          collapsed={isCollapsed}
           onClick={handleMobileNavigate}
         />
 
         {/* User info */}
-        {user && !collapsed && (
+        {user && !isCollapsed && (
           <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
@@ -333,20 +356,20 @@ export const Sidebar = () => {
           className={`
             w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors
             text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20
-            ${collapsed ? 'justify-center' : ''}
+            ${isCollapsed ? 'justify-center' : ''}
           `}
         >
           <LogOut className="w-5 h-5" />
-          {!collapsed && <span className="font-medium">Cerrar sesion</span>}
+          {!isCollapsed && <span className="font-medium">Cerrar sesion</span>}
         </button>
       </div>
 
-      {/* Collapse toggle - only visible on desktop */}
+      {/* Collapse toggle - floating button on desktop (alternative) */}
       <button
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={toggleCollapse}
         className="hidden lg:flex absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-sm items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
-        {collapsed ? (
+        {isCollapsed ? (
           <ChevronRight className="w-4 h-4 text-gray-500" />
         ) : (
           <ChevronLeft className="w-4 h-4 text-gray-500" />

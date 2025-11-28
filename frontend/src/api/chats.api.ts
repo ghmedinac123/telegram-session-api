@@ -74,6 +74,14 @@ export interface Contact {
 export interface ContactsResponse {
   contacts: Contact[]
   total_count: number
+  has_more: boolean
+  from_cache?: boolean
+}
+
+export interface GetContactsParams {
+  limit?: number
+  offset?: number
+  search?: string
 }
 
 // =============== API FUNCTIONS ===============
@@ -126,6 +134,17 @@ export const getChatHistory = async (
 /**
  * Obtiene la lista de contactos de Telegram
  */
-export const getContacts = async (sessionId: string): Promise<ContactsResponse> => {
-  return apiClient.get<ContactsResponse>(`/sessions/${sessionId}/contacts`)
+export const getContacts = async (
+  sessionId: string,
+  params?: GetContactsParams
+): Promise<ContactsResponse> => {
+  const queryParams = new URLSearchParams()
+  if (params?.limit) queryParams.append('limit', params.limit.toString())
+  if (params?.offset) queryParams.append('offset', params.offset.toString())
+  if (params?.search) queryParams.append('search', params.search)
+
+  const query = queryParams.toString()
+  const url = `/sessions/${sessionId}/contacts${query ? `?${query}` : ''}`
+
+  return apiClient.get<ContactsResponse>(url)
 }

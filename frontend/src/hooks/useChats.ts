@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import {
   getChats,
   getChatInfo,
@@ -6,6 +6,7 @@ import {
   getContacts,
   GetChatsParams,
   GetHistoryParams,
+  GetContactsParams,
   ChatsResponse,
   Chat,
   HistoryResponse,
@@ -28,7 +29,11 @@ export const chatKeys = {
 
 export const contactKeys = {
   all: ['contacts'] as const,
-  list: (sessionId: string) => [...contactKeys.all, sessionId] as const,
+  lists: () => [...contactKeys.all, 'list'] as const,
+  list: (sessionId: string, params?: GetContactsParams) =>
+    [...contactKeys.lists(), sessionId, params] as const,
+  infinite: (sessionId: string, search?: string) =>
+    [...contactKeys.all, 'infinite', sessionId, search] as const,
 }
 
 // =============== HOOKS ===============
@@ -74,12 +79,30 @@ export const useChatHistory = (
 }
 
 /**
- * Hook para obtener la lista de contactos
+ * Hook para obtener la lista de contactos con paginación
  */
-export const useContacts = (sessionId: string) => {
+export const useContacts = (sessionId: string, params?: GetContactsParams) => {
   return useQuery<ContactsResponse>({
-    queryKey: contactKeys.list(sessionId),
-    queryFn: () => getContacts(sessionId),
+    queryKey: contactKeys.list(sessionId, params),
+    queryFn: () => getContacts(sessionId, params),
+    enabled: !!sessionId,
+    staleTime: 1000 * 60 * 5, // 5 minutos
+  })
+}
+
+/**
+ * Hook para obtener contactos con infinite scroll
+ */
+export const useInfiniteContacts = (sessionId: string, search?: string, limit: number = 50) => {
+  return useInfiniteQuery({
+    queryKey: contactKeys.infinite(sessionId, search),
+    queryFn: ({ pageParam = 0 }) =>
+      getContacts(sessionId, { limit, offset: pageParam, search }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage.has_more) return undefined
+      return allPages.length * limit
+    },
     enabled: !!sessionId,
     staleTime: 1000 * 60 * 5, // 5 minutos
   })

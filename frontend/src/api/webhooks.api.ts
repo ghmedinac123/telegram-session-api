@@ -72,3 +72,25 @@ export const startWebhook = async (sessionId: string): Promise<void> => {
 export const stopWebhook = async (sessionId: string): Promise<void> => {
   return apiClient.post(`/sessions/${sessionId}/webhook/stop`)
 }
+
+// =============== POOL STATUS ===============
+
+export interface PoolSessionInfo {
+  session_id: string
+  session_name: string
+  telegram_id: number
+  started_at: string
+  is_connected: boolean
+}
+
+export interface PoolStatus {
+  active_count: number
+  sessions: PoolSessionInfo[]
+}
+
+/**
+ * Obtiene el estado del pool de sesiones activas
+ */
+export const getPoolStatus = async (): Promise<PoolStatus> => {
+  return apiClient.get<PoolStatus>('/pool/status')
+}

@@ -71,19 +71,24 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
   }
 
   const groupMessagesByDate = (messages: ChatMessage[]) => {
-    const groups: { [key: string]: ChatMessage[] } = {}
+    // Invertir para que los más antiguos estén primero (como WhatsApp)
+    const sortedMessages = [...messages].reverse()
 
-    messages.forEach((msg) => {
+    const groups: { [key: string]: ChatMessage[] } = {}
+    const dateOrder: string[] = []
+
+    sortedMessages.forEach((msg) => {
       const dateKey = new Date(msg.date).toDateString()
       if (!groups[dateKey]) {
         groups[dateKey] = []
+        dateOrder.push(dateKey)
       }
       groups[dateKey].push(msg)
     })
 
-    return Object.entries(groups).map(([, msgs]) => ({
-      date: msgs[0].date,
-      messages: msgs,
+    return dateOrder.map((dateKey) => ({
+      date: groups[dateKey][0].date,
+      messages: groups[dateKey],
     }))
   }
 
@@ -96,12 +101,18 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
     scrollToBottom()
   }, [historyData?.messages])
 
-  // Handle message sent - refetch and scroll
+  // Handle message sent - refetch multiple times to catch the message
   const handleMessageSent = () => {
-    setTimeout(() => {
-      refetch()
-      scrollToBottom()
-    }, 1000) // Give a bit of time for the message to be processed
+    // El mensaje está en cola, necesitamos refrescar varias veces
+    // porque Telegram procesa el mensaje de forma asíncrona
+    const refreshTimes = [500, 1500, 3000, 5000]
+
+    refreshTimes.forEach((delay) => {
+      setTimeout(() => {
+        refetch()
+        scrollToBottom()
+      }, delay)
+    })
   }
 
   if (isLoading) {
@@ -124,7 +135,8 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
     )
   }
 
-  const messageGroups = historyData?.messages ? groupMessagesByDate(historyData.messages) : []
+  const messages = historyData?.messages ?? []
+  const messageGroups = messages.length > 0 ? groupMessagesByDate(messages) : []
   const chatTitle = chatInfo?.title ||
     `${chatInfo?.first_name || ''} ${chatInfo?.last_name || ''}`.trim() ||
     'Chat'
@@ -153,7 +165,7 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50">
-        {!historyData || historyData.messages.length === 0 ? (
+        {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <AlertCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -244,10 +256,10 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
       </div>
 
       {/* Footer Info */}
-      {historyData && historyData.messages.length > 0 && (
+      {messages.length > 0 && (
         <div className="border-t border-gray-200 dark:border-gray-700 px-3 py-1.5 text-xs text-gray-500 dark:text-gray-500 text-center bg-gray-50 dark:bg-gray-900/50">
-          {historyData.messages.length} mensaje{historyData.messages.length !== 1 ? 's' : ''}
-          {historyData.has_more && ' • Hay mas mensajes anteriores'}
+          {messages.length} mensaje{messages.length !== 1 ? 's' : ''}
+          {historyData?.has_more && ' • Hay mas mensajes anteriores'}
         </div>
       )}
 

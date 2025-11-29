@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Loader2, AlertCircle, Image as ImageIcon, Video, Music, FileText, CheckCheck, Check, RefreshCw } from 'lucide-react'
 import { useChatHistory, useChatInfo } from '@/hooks'
 import { Alert, Card, Button } from '@/components/common'
@@ -12,8 +12,16 @@ interface ChatViewProps {
 
 export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [lastMessageCount, setLastMessageCount] = useState(0)
+  const [isUserScrolledUp, setIsUserScrolledUp] = useState(false)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
+
   const { data: chatInfo } = useChatInfo(sessionId, chatId)
-  const { data: historyData, isLoading, error, refetch, isFetching } = useChatHistory(sessionId, chatId, { limit: 50 })
+  const { data: historyData, isLoading, error, refetch, isFetching } = useChatHistory(sessionId, chatId, {
+    limit: 50,
+    enablePolling: true,
+    pollingInterval: 4000, // Polling cada 4 segundos
+  })
 
   const getMediaIcon = (mediaType?: string) => {
     if (!mediaType) return null
@@ -92,27 +100,49 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
     }))
   }
 
-  // Scroll to bottom when messages change
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  // Scroll to bottom
+  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
+    messagesEndRef.current?.scrollIntoView({ behavior })
   }
 
+  // Detectar si el usuario hizo scroll hacia arriba
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current
+    // Si está a menos de 100px del fondo, consideramos que está abajo
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 100
+    setIsUserScrolledUp(!isAtBottom)
+  }
+
+  // Obtener mensajes (siempre, para que el useEffect funcione)
+  const messages = historyData?.messages ?? []
+  const messageGroups = messages.length > 0 ? groupMessagesByDate(messages) : []
+
+  // Solo hacer scroll automático cuando llegan mensajes nuevos y el usuario no está scrolleado arriba
   useEffect(() => {
-    scrollToBottom()
-  }, [historyData?.messages])
+    const currentCount = messages.length
+    if (currentCount > lastMessageCount) {
+      // Hay mensajes nuevos
+      if (!isUserScrolledUp || lastMessageCount === 0) {
+        // Solo scroll si el usuario está abajo o es la primera carga
+        scrollToBottom(lastMessageCount === 0 ? 'instant' : 'smooth')
+      }
+      setLastMessageCount(currentCount)
+    } else if (currentCount !== lastMessageCount) {
+      setLastMessageCount(currentCount)
+    }
+  }, [messages.length, lastMessageCount, isUserScrolledUp])
 
-  // Handle message sent - refetch multiple times to catch the message
+  // Handle message sent - refetch immediately and scroll
   const handleMessageSent = () => {
-    // El mensaje está en cola, necesitamos refrescar varias veces
-    // porque Telegram procesa el mensaje de forma asíncrona
-    const refreshTimes = [500, 1500, 3000, 5000]
-
-    refreshTimes.forEach((delay) => {
-      setTimeout(() => {
-        refetch()
-        scrollToBottom()
-      }, delay)
-    })
+    // Forzar que no esté scrolleado para que el auto-scroll funcione
+    setIsUserScrolledUp(false)
+    // Refetch inmediato y después de un segundo (el polling se encarga del resto)
+    refetch()
+    setTimeout(() => {
+      refetch()
+      scrollToBottom()
+    }, 1000)
   }
 
   if (isLoading) {
@@ -134,9 +164,6 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
       </Alert>
     )
   }
-
-  const messages = historyData?.messages ?? []
-  const messageGroups = messages.length > 0 ? groupMessagesByDate(messages) : []
   const chatTitle = chatInfo?.title ||
     `${chatInfo?.first_name || ''} ${chatInfo?.last_name || ''}`.trim() ||
     'Chat'
@@ -145,13 +172,23 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
     <Card className="flex flex-col h-[calc(100vh-200px)] sm:h-[650px] overflow-hidden p-0">
       {/* Chat Header */}
       <div className="border-b border-gray-200 dark:border-gray-700 p-3 sm:p-4 shrink-0 flex items-center justify-between">
-        <div className="min-w-0">
-          <h3 className="font-semibold text-gray-900 dark:text-white truncate">
-            {chatTitle}
-          </h3>
-          {chatInfo?.username && (
-            <p className="text-sm text-gray-500 dark:text-gray-500">@{chatInfo.username}</p>
-          )}
+        <div className="min-w-0 flex items-center gap-2">
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+              {chatTitle}
+            </h3>
+            {chatInfo?.username && (
+              <p className="text-sm text-gray-500 dark:text-gray-500">@{chatInfo.username}</p>
+            )}
+          </div>
+          {/* Indicador de sincronización en tiempo real */}
+          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 rounded-full">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs text-green-700 dark:text-green-400 font-medium">Sync</span>
+          </div>
         </div>
         <Button
           variant="ghost"
@@ -164,7 +201,11 @@ export const ChatView = ({ sessionId, chatId }: ChatViewProps) => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50">
+      <div
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50"
+      >
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center text-gray-500 dark:text-gray-400">

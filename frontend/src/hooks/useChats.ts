@@ -64,17 +64,22 @@ export const useChatInfo = (sessionId: string, chatId: number) => {
 
 /**
  * Hook para obtener el historial de mensajes de un chat
+ * Con polling automático para sincronización en tiempo real
  */
 export const useChatHistory = (
   sessionId: string,
   chatId: number,
-  params?: GetHistoryParams
+  params?: GetHistoryParams & { enablePolling?: boolean; pollingInterval?: number }
 ) => {
+  const { enablePolling = true, pollingInterval = 4000, ...queryParams } = params || {}
+
   return useQuery<HistoryResponse>({
-    queryKey: chatKeys.history(sessionId, chatId, params),
-    queryFn: () => getChatHistory(sessionId, chatId, params),
+    queryKey: chatKeys.history(sessionId, chatId, queryParams),
+    queryFn: () => getChatHistory(sessionId, chatId, queryParams),
     enabled: !!sessionId && !!chatId,
-    staleTime: 1000 * 10, // 10 segundos
+    staleTime: 1000 * 3, // 3 segundos
+    refetchInterval: enablePolling ? pollingInterval : false, // Polling cada 4 segundos por defecto
+    refetchIntervalInBackground: false, // No refrescar si la pestaña no está activa
   })
 }
 
